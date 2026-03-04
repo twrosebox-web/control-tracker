@@ -246,6 +246,69 @@ nav::-webkit-scrollbar{display:none}
 .ai-reminder-chip.active{border-color:var(--amber);color:var(--amber);background:var(--amber-bg)}
 .ai-reminder-chip.done{border-color:var(--green);color:var(--green);background:var(--green-bg)}
 
+
+/* FILES */
+.file-item{background:var(--s2);border:1px solid var(--border);padding:9px 12px;display:flex;align-items:flex-start;gap:10px;margin-bottom:5px}
+.file-ver{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--amber);white-space:nowrap;flex-shrink:0;min-width:36px;padding-top:1px}
+.file-path{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--blue);word-break:break-all;margin-top:2px}
+.file-path a{color:var(--blue);text-decoration:none}.file-path a:hover{text-decoration:underline}
+.file-note{font-size:12px;color:var(--muted);margin-top:2px}
+.file-add-row{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+
+
+
+/* VENDORS */
+.vtype-sel-btn{font-size:12px;padding:5px 10px;border:1px solid var(--border);background:none;color:var(--muted);cursor:pointer;transition:all .15s}
+.vtype-sel-btn:hover{border-color:var(--purple);color:var(--purple)}
+.vtype-sel-btn.sel{border-color:var(--purple);color:var(--purple);background:var(--purple-bg);font-weight:600}
+.vendor-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.vfilter-btn{font-family:'IBM Plex Mono',monospace;font-size:11px;padding:4px 10px;border:1px solid var(--border);background:none;color:var(--muted);cursor:pointer;transition:all .15s}
+.vfilter-btn:hover{border-color:var(--purple);color:var(--purple)}
+.vfilter-btn.active{border-color:var(--purple);color:var(--purple);background:var(--purple-bg);font-weight:600}
+.vcard{background:var(--s1);border:1px solid var(--border);border-left:3px solid var(--purple);margin-bottom:8px}
+.vcard.has-warning{border-left-color:var(--rose)}
+.vcard-head{padding:11px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none}
+.vcard-head:hover .vname{color:var(--amber)}
+.vname{font-size:15px;font-weight:700;transition:color .15s}
+.vtype-badge{font-size:10px;padding:2px 7px;border:1px solid var(--purple);color:var(--purple);font-family:'IBM Plex Mono',monospace;white-space:nowrap;flex-shrink:0}
+.vmeta{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;margin-top:2px}
+.vcard-body{display:none;border-top:1px solid var(--border)}.vcard-body.open{display:block}
+.vcard-inner{padding:12px 14px}
+.vinfo-compact{display:grid;grid-template-columns:repeat(3,1fr);gap:6px 12px;margin-bottom:12px;background:var(--s2);padding:10px 12px;border:1px solid var(--border)}
+@media(max-width:580px){.vinfo-compact{grid-template-columns:1fr 1fr}}
+.vi-label{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:1px}
+.vi-val{font-size:13px;color:var(--text);font-weight:500;word-break:break-all}
+.vwarning{background:var(--rose-bg);border-left:3px solid var(--rose);padding:8px 12px;font-size:13px;color:var(--rose);margin-bottom:10px;line-height:1.6}
+.vorders{margin-bottom:10px}
+.vorder-item{background:var(--s3);border:1px solid var(--border);padding:6px 10px;margin-bottom:4px;display:flex;align-items:center;gap:10px;font-size:13px}
+.vorder-date{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap;flex-shrink:0}
+.vorder-proj{font-size:11px;color:var(--blue);flex-shrink:0}
+.vprod-table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:6px}
+.vprod-table th{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);text-align:left;padding:4px 6px;border-bottom:1px solid var(--border);font-weight:500;white-space:nowrap}
+.vprod-table td{padding:6px 6px;border-bottom:1px solid var(--s3);vertical-align:top;font-size:13px}
+.vprod-table tr:last-child td{border-bottom:none}
+.vprod-table tr:hover td{background:var(--s2)}
+.vtag{font-family:'IBM Plex Mono',monospace;font-size:10px;padding:2px 7px;border:1px solid var(--purple);color:var(--purple);white-space:nowrap}
+
+
+/* PRINT INFO */
+.print-block{background:var(--s2);border:1px solid var(--border);border-left:3px solid var(--purple);padding:12px 14px;margin-bottom:8px}
+.print-block-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.print-block-title{font-size:14px;font-weight:600;flex:1}
+.print-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px 14px}
+@media(max-width:580px){.print-grid{grid-template-columns:1fr 1fr}}
+.pi-item .pi-label{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:2px}
+.pi-item .pi-val{font-size:13px;color:var(--text);font-weight:500}
+.pi-item .pi-val.empty{color:var(--dim);font-weight:400;font-style:italic}
+.vendor-badge{font-family:'IBM Plex Mono',monospace;font-size:11px;padding:2px 8px;border:1px solid var(--purple);color:var(--purple);background:var(--purple-bg)}
+
+.backup-banner{background:#c07a1a;color:#fff;padding:10px 18px;display:flex;align-items:center;gap:14px;font-size:13px;position:sticky;top:50px;z-index:190}
+.backup-banner strong{font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:1px}
+.backup-banner-btns{display:flex;gap:8px;margin-left:auto}
+.backup-banner button{font-family:'IBM Plex Mono',monospace;font-size:11px;padding:4px 12px;border:1px solid rgba(255,255,255,.5);background:none;color:#fff;cursor:pointer}
+.backup-banner button:hover{background:rgba(255,255,255,.15)}
+.backup-banner button.primary{background:#fff;color:#c07a1a;border-color:#fff}
+
 .toast{position:fixed;bottom:16px;right:16px;background:var(--ink);color:#fff;font-family:'IBM Plex Mono',monospace;font-size:13px;padding:8px 14px;z-index:500;opacity:0;transition:opacity .2s;pointer-events:none}
 .toast.show{opacity:1}
 .empty{text-align:center;padding:32px;color:var(--muted);font-size:15px}
@@ -260,11 +323,13 @@ nav::-webkit-scrollbar{display:none}
   <button class="ntab" onclick="switchTab('gantt')">時間軸</button>
   <button class="ntab" onclick="switchTab('schedule')">日程</button>
   <button class="ntab" onclick="switchTab('annual')">年度設定</button>
+  <button class="ntab" onclick="switchTab('vendors')">廠商</button>
   <div class="nav-right">
     <span class="npill go" id="navGo">0 GO</span>
     <span class="npill warn" id="navWarn" style="display:none">!</span>
     <div id="syncDot" title="點擊同步" style="width:8px;height:8px;border-radius:50%;background:var(--dim);flex-shrink:0;cursor:pointer" onclick="pullAll()"></div>
     <button class="meeting-btn" id="syncBtn" onclick="pullAll()" style="font-size:10px;padding:3px 8px;opacity:.5">↻</button>
+    <button class="meeting-btn" id="backupBtn" onclick="doBackup()" title="下載備份">⬇ 備份</button>
     <button class="meeting-btn" id="meetingBtn" onclick="openMeeting()">⚑ 開會</button>
   </div>
 </nav>
@@ -285,6 +350,7 @@ nav::-webkit-scrollbar{display:none}
   </div>
 </div>
 
+<div id="backupBanner" style="display:none" class="backup-banner"><strong>⚠ 備份提醒</strong> 距離上次備份已超過 7 天，建議下載備份。<div class="backup-banner-btns"><button onclick="doBackup();dismissBackup()" class="primary">⬇ 立即備份</button><button onclick="dismissBackup()">稍後再說</button></div></div>
 <div class="main">
 
 <!-- TODAY -->
@@ -337,6 +403,15 @@ nav::-webkit-scrollbar{display:none}
   <div class="upcoming-list" id="upcomingList"></div>
 </div>
 
+</div>
+
+<!-- VENDORS PANEL -->
+<div class="panel" id="panel-vendors">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+    <div id="vendorFilterBar" class="vendor-filters" style="flex:1"></div>
+    <button class="btn btn-ink" style="flex-shrink:0" onclick="openVendorModal()">＋ 新增廠商</button>
+  </div>
+  <div id="vendorGrid"></div>
 </div>
 
 <!-- ANNUAL PANEL -->
@@ -456,6 +531,104 @@ nav::-webkit-scrollbar{display:none}
   </div>
 </div>
 
+<!-- PRINT MODAL -->
+<div class="overlay" id="printOverlay">
+  <div class="modal" style="max-width:500px">
+    <div class="modal-title" id="printModalTitle">印刷資料</div>
+    <div class="fg">
+      <label class="fl">廠商（選填）</label>
+      <select class="fsel" id="prVendor" onchange="onVendorSelect()">
+        <option value="">— 選擇廠商 —</option>
+      </select>
+    </div>
+    <div class="fg" id="prProdGroup" style="display:none">
+      <label class="fl">品項（選填，可自動帶入規格）</label>
+      <select class="fsel" id="prProd" onchange="onProdSelect()">
+        <option value="">— 選擇品項 —</option>
+      </select>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div class="fg" style="grid-column:1/-1"><label class="fl">品項名稱</label><input class="fi" id="piName" placeholder="例：A4傳單、活動橫幅"/></div>
+      <div class="fg"><label class="fl">尺寸</label><input class="fi" id="piSize" placeholder="例：210×297mm"/></div>
+      <div class="fg"><label class="fl">材質</label><input class="fi" id="piMaterial" placeholder="例：銅版紙105g"/></div>
+      <div class="fg"><label class="fl">單價 / 報價</label><input class="fi" id="piPrice" placeholder="例：$500/500張"/></div>
+      <div class="fg"><label class="fl">印製天數</label><input class="fi" id="piDays" placeholder="例：3–5天"/></div>
+      <div class="fg"><label class="fl">取貨方式</label><input class="fi" id="piPickup" placeholder="例：自取、宅配"/></div>
+      <div class="fg"><label class="fl">數量</label><input class="fi" id="piQty" placeholder="例：500張、2個"/></div>
+    </div>
+    <div class="fg"><label class="fl">備注</label><textarea class="fta" id="piNote" placeholder="出血、色彩模式、特殊備注..."></textarea></div>
+    <div class="modal-btns">
+      <button class="btn btn-ghost" onclick="closeO('printOverlay')">取消</button>
+      <button class="btn btn-amber" onclick="savePrintItem()">儲存</button>
+    </div>
+  </div>
+</div>
+
+<!-- VENDOR MODAL -->
+<div class="overlay" id="vendorOverlay">
+  <div class="modal" style="max-width:520px">
+    <div class="modal-title" id="vendorModalTitle">NEW VENDOR</div>
+    <div class="fg"><label class="fl">廠商類型</label>
+      <div style="display:flex;gap:6px;flex-wrap:wrap" id="vtypeRow">
+        <button type="button" class="vtype-sel-btn" onclick="selVtype(this,'🖨 一般印刷')">🖨 一般印刷</button>
+        <button type="button" class="vtype-sel-btn" onclick="selVtype(this,'🖼 大圖輸出')">🖼 大圖輸出</button>
+        <button type="button" class="vtype-sel-btn" onclick="selVtype(this,'📬 名片/小印刷')">📬 名片/小印刷</button>
+        <button type="button" class="vtype-sel-btn" onclick="selVtype(this,'📦 包裝/紙盒')">📦 包裝/紙盒</button>
+        <button type="button" class="vtype-sel-btn" onclick="selVtype(this,'🎀 展售周邊商品')">🎀 展售周邊商品</button>
+        <button type="button" class="vtype-sel-btn" onclick="selVtype(this,'🛠 裝潢/安裝')">🛠 裝潢/安裝</button>
+        <button type="button" class="vtype-sel-btn" onclick="selVtype(this,'📣 小物/購購')">📣 小物/購購</button>
+      </div>
+      <input type="hidden" id="vType" value=""/>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div class="fg" style="grid-column:1/-1"><label class="fl">廠商名稱 *</label><input class="fi" id="vName" placeholder="例：XX印刷行"/></div>
+      <div class="fg"><label class="fl">電話</label><input class="fi" id="vPhone" placeholder="02-XXXX-XXXX"/></div>
+      <div class="fg"><label class="fl">聯絡人</label><input class="fi" id="vContact" placeholder="王小明"/></div>
+      <div class="fg" style="grid-column:1/-1"><label class="fl">地址</label><input class="fi" id="vAddr" placeholder="台北市..."/></div>
+      <div class="fg" style="grid-column:1/-1"><label class="fl">上班時間</label><input class="fi" id="vHours" placeholder="週一至五 09:00–18:00"/></div>
+      <div class="fg" style="grid-column:1/-1"><label class="fl">⚠ 黑歷史 / 特殊備注</label><textarea class="fta" id="vWarning" placeholder="例：曾延遲出貨、色差問題需注意..."></textarea></div>
+      <div class="fg" style="grid-column:1/-1"><label class="fl">替代廠商</label><input class="fi" id="vAlt" placeholder="例：XX印刷、OO設計（備用）"/></div>
+    </div>
+    <div class="modal-btns">
+      <button class="btn btn-ghost" onclick="closeO('vendorOverlay')">取消</button>
+      <button class="btn btn-amber" onclick="saveVendor()">儲存</button>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div class="overlay" id="prodOverlay">
+  <div class="modal">
+    <div class="modal-title" id="prodModalTitle">ADD PRODUCT</div>
+    <div class="fg"><label class="fl">品項名稱 *</label><input class="fi" id="prName" placeholder="例：A4傳單、名片、帆布橫幅"/></div>
+    <div class="fg"><label class="fl">材質</label><input class="fi" id="prMaterial" placeholder="例：銅版紙105g、防水PVC"/></div>
+    <div class="fg"><label class="fl">尺寸</label><input class="fi" id="prSize" placeholder="例：210×297mm、90×54mm"/></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div class="fg"><label class="fl">單價</label><input class="fi" id="prPrice" placeholder="例：500元/500張"/></div>
+      <div class="fg"><label class="fl">印製天數</label><input class="fi" id="prDays" placeholder="例：3–5天"/></div>
+    </div>
+    <div class="fg"><label class="fl">取貨方式</label><input class="fi" id="prPickup" placeholder="例：自取、宅配、到府安裝"/></div>
+    <div class="fg"><label class="fl">備注</label><textarea class="fta" id="prNote" placeholder="出血尺寸、特殊工法、最小訂量..."></textarea></div>
+    <div class="modal-btns">
+      <button class="btn btn-ghost" onclick="closeO('prodOverlay')">取消</button>
+      <button class="btn btn-amber" onclick="saveProduct()">儲存</button>
+    </div>
+  </div>
+</div>
+
+<!-- FILE MODAL -->
+<div class="overlay" id="fileOverlay">
+  <div class="modal">
+    <div class="modal-title" id="fileModalTitle">ADD FILE</div>
+    <div class="fg"><label class="fl">版本號</label><input class="fi" id="fVer" placeholder="例：v1、v2、最終版"/></div>
+    <div class="fg"><label class="fl">檔案路徑 *</label><input class="fi" id="fPath" placeholder="例：D:/2025設計/週年慶/主視覺.ai"/></div>
+    <div class="modal-btns">
+      <button class="btn btn-ghost" onclick="closeO('fileOverlay')">取消</button>
+      <button class="btn btn-amber" onclick="saveFile()">儲存</button>
+    </div>
+  </div>
+</div>
+
 <!-- ANNUAL MODAL -->
 <div class="overlay" id="annualOverlay">
   <div class="modal">
@@ -482,7 +655,7 @@ nav::-webkit-scrollbar{display:none}
 const KEY='ctrl_v4';
 function loadDB(){try{return JSON.parse(localStorage.getItem(KEY))||defDB()}catch{return defDB()}}
 function saveDB(){localStorage.setItem(KEY,JSON.stringify(db))}
-function defDB(){return{projects:[],deadlines:[],reminders:[],festivals:[
+function defDB(){return{projects:[],deadlines:[],reminders:[],vendors:[],festivals:[
   {id:'af1',name:'農曆新年',date:'2026-01-29',repeat:true,note:'紅金色系，需要直式橫式各一'},
   {id:'af2',name:'情人節',date:'2026-02-14',repeat:true,note:''},
   {id:'af3',name:'母親節',date:'2026-05-10',repeat:true,note:'暖色系、花卉元素'},
@@ -516,12 +689,13 @@ function fmtD(d){if(!d)return'';const x=new Date(d);return(x.getMonth()+1)+'/'+(
 
 // TAB
 function switchTab(tab){
-  document.querySelectorAll('.ntab').forEach((b,i)=>b.classList.toggle('active',['today','projects','gantt','schedule','annual'][i]===tab));
+  document.querySelectorAll('.ntab').forEach((b,i)=>b.classList.toggle('active',['today','projects','gantt','schedule','annual','vendors'][i]===tab));
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   const panelEl=document.getElementById('panel-'+tab);if(panelEl)panelEl.classList.add('active');
   if(tab==='schedule')renderSchedule();
   if(tab==='gantt')renderGantt();
   if(tab==='annual'){renderAnnual();}
+  if(tab==='vendors'){renderVendors();}
 }
 
 function renderAll(){
@@ -597,7 +771,12 @@ function renderProjects(){
     const startMeta=p.startDate?`<span>開始 ${fmtD(p.startDate)}</span>`:'';
     const peopleMeta=(p.people&&p.people.length)?`<span>👥 ${p.people.slice(0,3).join('、')}${p.people.length>3?'...':''}</span>`:'';
     const lanesHtml=p.lanes.map(l=>{
-      const ld=l.endDate?` · ${fmtD(l.endDate)}`:'';
+      const lFileHtml=(l.files&&l.files.length)?l.files.map((f,fi)=>`
+        <div class="file-item" style="margin-top:4px;padding:5px 8px">
+          ${f.ver?`<div class="file-ver" style="font-size:11px">${esc(f.ver)}</div>`:''}
+          <div class="file-path" style="flex:1;font-size:11px">${esc(f.path)}</div>
+          <button class="icon-btn del" style="width:18px;height:18px;font-size:10px" onclick="delFile('${p.id}',${fi},'${l.id}')">✕</button>
+        </div>`).join(''):'';
       return `<div class="lane-item ${l.status}">
         <button class="lane-sbtn" onclick="toggleLane('${p.id}','${l.id}')">${l.status==='go'?'▶ GO':'⏸'}</button>
         <div style="flex:1">
@@ -605,6 +784,8 @@ function renderProjects(){
           ${l.detail?`<div class="lane-detail">${esc(l.detail)}</div>`:''}
           ${l.status==='wait'&&l.waitR?`<div class="lane-wait-r">等：${esc(l.waitR)}</div>`:''}
           ${(l.startDate||l.endDate)?`<div class="lane-dates">${l.startDate?fmtD(l.startDate):'?'} → ${l.endDate?fmtD(l.endDate):'?'}</div>`:''}
+          ${lFileHtml}
+          <button class="btn btn-ghost" style="font-size:10px;padding:2px 8px;margin-top:5px" onclick="openFileModal('${p.id}','${l.id}')">＋ 檔案/版本</button>
         </div>
         ${l.eta?`<div class="lane-eta">⏱ ${esc(l.eta)}</div>`:''}
         <button class="icon-btn" onclick="openEditLane('${p.id}','${l.id}')">✎</button>
@@ -633,6 +814,41 @@ function renderProjects(){
           <div><div class="flabel">問題 / 卡住</div><textarea class="fld" placeholder="..." oninput="updP('${p.id}','issues',this.value)">${esc(p.issues)}</textarea></div>
           ${p.note?`<div class="full"><div class="flabel">備注</div><div style="font-size:13px;color:var(--muted);line-height:1.7;padding:6px 0">${esc(p.note)}</div></div>`:''}
           ${p.people&&p.people.length?`<div class="full"><div class="flabel">相關人物</div><div class="people-row">${p.people.map(pe=>`<span class="person-tag">${esc(pe)}</span>`).join('')}</div></div>`:''}
+          <div class="full">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+              <div class="flabel" style="margin-bottom:0">相關檔案</div>
+              <button class="btn btn-ghost" style="font-size:11px;padding:3px 9px" onclick="openFileModal('${p.id}')">＋ 新增</button>
+            </div>
+            ${(p.files&&p.files.length)?p.files.map((f,fi)=>`
+              <div class="file-item">
+                ${f.ver?`<div class="file-ver">${esc(f.ver)}</div>`:''}
+                <div class="file-path" style="flex:1">${esc(f.path)}</div>
+                <button class="icon-btn del" onclick="delFile('${p.id}',${fi})">✕</button>
+              </div>`).join(''):'<div style="font-size:13px;color:var(--dim)">還沒有檔案</div>'}
+          </div>
+          <div class="full">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+              <div class="flabel" style="margin-bottom:0">印刷資料</div>
+              <button class="btn btn-ghost" style="font-size:11px;padding:3px 9px" onclick="openPrintModal('${p.id}')">＋ 新增</button>
+            </div>
+            ${(p.prints&&p.prints.length)?p.prints.map((pi,pii)=>`
+              <div class="print-block">
+                <div class="print-block-head">
+                  <div class="print-block-title">${esc(pi.name||'印刷品項')}</div>
+                  ${pi.vendorId?`<span class="vendor-badge">${esc((db.vendors||[]).find(v=>v.id===pi.vendorId)?.name||'廠商')}</span>`:''}
+                  ${pi.qty?`<span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted)">× ${esc(pi.qty)}</span>`:''}
+                  <button class="icon-btn del" onclick="delPrintItem('${p.id}',${pii})">✕</button>
+                </div>
+                <div class="print-grid">
+                  <div class="pi-item"><div class="pi-label">尺寸</div><div class="pi-val ${pi.size?'':'empty'}">${esc(pi.size||'未填')}</div></div>
+                  <div class="pi-item"><div class="pi-label">材質</div><div class="pi-val ${pi.material?'':'empty'}">${esc(pi.material||'未填')}</div></div>
+                  <div class="pi-item"><div class="pi-label">單價</div><div class="pi-val ${pi.price?'':'empty'}">${esc(pi.price||'未填')}</div></div>
+                  <div class="pi-item"><div class="pi-label">印製天數</div><div class="pi-val ${pi.days?'':'empty'}">${esc(pi.days||'未填')}</div></div>
+                  <div class="pi-item"><div class="pi-label">取貨方式</div><div class="pi-val ${pi.pickup?'':'empty'}">${esc(pi.pickup||'未填')}</div></div>
+                  ${pi.note?`<div class="pi-item" style="grid-column:1/-1"><div class="pi-label">備注</div><div class="pi-val">${esc(pi.note)}</div></div>`:''}
+                </div>
+              </div>`).join(''):'<div style="font-size:13px;color:var(--dim);margin-bottom:8px">還沒有印刷資料</div>'}
+          </div>
           <div class="full">
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
               <div class="flabel" style="margin-bottom:0">任務線</div>
@@ -979,7 +1195,7 @@ function renderMeetingContent(){
   });
 }
 
-['projOverlay','laneOverlay','deadlineOverlay','reminderOverlay','annualOverlay'].forEach(id=>{
+['projOverlay','laneOverlay','deadlineOverlay','reminderOverlay','annualOverlay','fileOverlay','vendorOverlay','prodOverlay','printOverlay'].forEach(id=>{
   const el=document.getElementById(id);
   if(el)el.addEventListener('click',e=>{if(e.target.id===id)closeO(id)});
 });
@@ -987,7 +1203,7 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){
     const mo=document.getElementById('mOverlay');
     if(mo&&mo.classList.contains('open')){closeMeeting();return;}
-    ['projOverlay','laneOverlay','deadlineOverlay','reminderOverlay','annualOverlay'].forEach(id=>{
+    ['projOverlay','laneOverlay','deadlineOverlay','reminderOverlay','annualOverlay','fileOverlay','vendorOverlay','prodOverlay','printOverlay'].forEach(id=>{
       const el=document.getElementById(id);if(el)closeO(id);
     });
   }
@@ -1210,6 +1426,329 @@ function getAutoAlertItems(){
   return items.sort((a,b)=>new Date(a.date)-new Date(b.date));
 }
 
+// ── PRINT INFO ──
+let printTargetPid=null;
+
+function openPrintModal(pid){
+  printTargetPid=pid;
+  document.getElementById('printModalTitle').textContent='新增印刷資料';
+  ['piName','piSize','piMaterial','piPrice','piDays','piPickup','piQty','piNote'].forEach(i=>document.getElementById(i).value='');
+  // Populate vendor dropdown
+  const vsel=document.getElementById('prVendor');
+  vsel.innerHTML='<option value="">— 選擇廠商 —</option>';
+  (db.vendors||[]).forEach(v=>{
+    const opt=document.createElement('option');opt.value=v.id;opt.textContent=v.name;vsel.appendChild(opt);
+  });
+  vsel.value='';
+  document.getElementById('prProdGroup').style.display='none';
+  document.getElementById('printOverlay').classList.add('open');
+  setTimeout(()=>document.getElementById('piName').focus(),50);
+}
+
+function onVendorSelect(){
+  const vid=document.getElementById('prVendor').value;
+  const prodGroup=document.getElementById('prProdGroup');
+  const prProd=document.getElementById('prProd');
+  if(!vid){prodGroup.style.display='none';return;}
+  const v=(db.vendors||[]).find(x=>x.id===vid);
+  if(!v||!v.products||!v.products.length){prodGroup.style.display='none';return;}
+  prProd.innerHTML='<option value="">— 選擇品項（可自動帶入）—</option>';
+  v.products.forEach((pr,i)=>{
+    const opt=document.createElement('option');opt.value=i;opt.textContent=pr.name+(pr.size?' ('+pr.size+')':'');prProd.appendChild(opt);
+  });
+  prProd.value='';
+  prodGroup.style.display='block';
+}
+
+function onProdSelect(){
+  const vid=document.getElementById('prVendor').value;
+  const pidx=document.getElementById('prProd').value;
+  if(!vid||pidx==='')return;
+  const v=(db.vendors||[]).find(x=>x.id===vid);
+  if(!v||!v.products)return;
+  const pr=v.products[parseInt(pidx)];if(!pr)return;
+  if(pr.name)document.getElementById('piName').value=pr.name;
+  if(pr.size)document.getElementById('piSize').value=pr.size;
+  if(pr.material)document.getElementById('piMaterial').value=pr.material;
+  if(pr.price)document.getElementById('piPrice').value=pr.price;
+  if(pr.days)document.getElementById('piDays').value=pr.days;
+  if(pr.pickup)document.getElementById('piPickup').value=pr.pickup;
+}
+
+function savePrintItem(){
+  const p=db.projects.find(x=>x.id===printTargetPid);if(!p)return;
+  if(!p.prints)p.prints=[];
+  const item={
+    vendorId:document.getElementById('prVendor').value||null,
+    name:document.getElementById('piName').value.trim(),
+    size:document.getElementById('piSize').value.trim(),
+    material:document.getElementById('piMaterial').value.trim(),
+    price:document.getElementById('piPrice').value.trim(),
+    days:document.getElementById('piDays').value.trim(),
+    pickup:document.getElementById('piPickup').value.trim(),
+    qty:document.getElementById('piQty').value.trim(),
+    note:document.getElementById('piNote').value.trim(),
+  };
+  if(!item.name&&!item.size){alert('請至少填寫品項名稱或尺寸');return;}
+  p.prints.push(item);p.updatedAt=new Date().toISOString();
+  renderAll();pushAll();
+  document.getElementById('pb-'+printTargetPid)?.classList.add('open');
+  closeO('printOverlay');toast('印刷資料已新增');
+}
+
+function delPrintItem(pid,idx){
+  const p=db.projects.find(x=>x.id===pid);if(!p||!p.prints)return;
+  p.prints.splice(idx,1);
+  renderAll();pushAll();
+  document.getElementById('pb-'+pid)?.classList.add('open');
+  toast('已刪除');
+}
+
+// ── VENDORS ──
+let editingVendorId=null;
+let addingProdVid=null;
+let editingProdIdx=null;
+
+function renderVendors(){
+  if(!db.vendors)db.vendors=[];
+  const grid=document.getElementById('vendorGrid');
+  if(!grid)return;
+  if(!db.vendors.length){grid.innerHTML='<div class="empty">點右上角「新增廠商」開始建立廠商總表</div>';return;}
+  const openIds=new Set([...document.querySelectorAll('.vcard-body.open')].map(b=>b.id.replace('vb-','')));
+  grid.innerHTML='';
+  db.vendors.forEach(v=>{
+    const prods=v.products||[];
+    const hasWarning=!!(v.warning&&v.warning.trim());
+    const card=document.createElement('div');
+    card.className='vcard'+(hasWarning?' has-warning':'');
+    card.innerHTML=`
+      <div class="vcard-head" onclick="toggleVCard('${v.id}')">
+        <div style="flex:1">
+          <div class="vname">${esc(v.name)}</div>
+          <div class="vmeta">
+            ${v.phone?`<span>📞 ${esc(v.phone)}</span>`:''}
+            ${v.contact?`<span>👤 ${esc(v.contact)}</span>`:''}
+            ${v.hours?`<span>🕐 ${esc(v.hours)}</span>`:''}
+            ${prods.length?`<span class="vtag">${prods.length} 個品項</span>`:''}
+            ${hasWarning?`<span style="color:var(--rose);font-size:11px">⚠ 有備注</span>`:''}
+            ${v.alt?`<span style="color:var(--muted);font-size:11px">備用：${esc(v.alt.split('、')[0])}</span>`:''}
+          </div>
+        </div>
+        <button class="icon-btn" onclick="openEditVendor(event,'${v.id}')">✎</button>
+        <button class="icon-btn del" onclick="delVendor(event,'${v.id}')">✕</button>
+      </div>
+      <div class="vcard-body ${openIds.has(v.id)?'open':''}" id="vb-${v.id}">
+        <div class="vcard-inner">
+          ${hasWarning?`<div class="vwarning">⚠ ${esc(v.warning)}</div>`:''}
+          <div class="vinfo-grid">
+            ${v.phone?`<div class="vinfo-item"><div class="vi-label">電話</div><div class="vi-val">${esc(v.phone)}</div></div>`:''}
+            ${v.contact?`<div class="vinfo-item"><div class="vi-label">聯絡人</div><div class="vi-val">${esc(v.contact)}</div></div>`:''}
+            ${v.addr?`<div class="vinfo-item" style="grid-column:1/-1"><div class="vi-label">地址</div><div class="vi-val">${esc(v.addr)}</div></div>`:''}
+            ${v.hours?`<div class="vinfo-item" style="grid-column:1/-1"><div class="vi-label">上班時間</div><div class="vi-val">${esc(v.hours)}</div></div>`:''}
+            ${v.alt?`<div class="vinfo-item" style="grid-column:1/-1"><div class="vi-label">替代廠商</div><div class="vi-val" style="color:var(--muted)">${esc(v.alt)}</div></div>`:''}
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+            <div class="flabel" style="margin-bottom:0">產品 / 服務列表</div>
+            <button class="btn btn-ink" style="font-size:11px;padding:4px 10px" onclick="openProdModal('${v.id}')">＋ 新增品項</button>
+          </div>
+          ${prods.length?`
+          <table class="vprod-table">
+            <thead><tr>
+              <th>品項</th><th>材質</th><th>尺寸</th><th>單價</th><th>天數</th><th>取貨</th><th>備注</th><th></th>
+            </tr></thead>
+            <tbody>
+              ${prods.map((pr,i)=>`<tr>
+                <td style="font-weight:600">${esc(pr.name)}</td>
+                <td>${esc(pr.material||'—')}</td>
+                <td style="font-family:'IBM Plex Mono',monospace;font-size:12px">${esc(pr.size||'—')}</td>
+                <td style="font-family:'IBM Plex Mono',monospace;font-size:12px">${esc(pr.price||'—')}</td>
+                <td style="font-family:'IBM Plex Mono',monospace;font-size:12px">${esc(pr.days||'—')}</td>
+                <td style="font-size:12px">${esc(pr.pickup||'—')}</td>
+                <td style="color:var(--muted);font-size:12px">${esc(pr.note||'')}</td>
+                <td><button class="icon-btn del" onclick="delProduct('${v.id}',${i})">✕</button></td>
+              </tr>`).join('')}
+            </tbody>
+          </table>`:'<div style="font-size:13px;color:var(--dim);padding:4px 0">還沒有品項</div>'}
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+function toggleVCard(vid){document.getElementById('vb-'+vid)?.classList.toggle('open');}
+
+function selVtype(btn,type){
+  document.querySelectorAll('.vtype-sel-btn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  document.getElementById('vType').value=type;
+}
+function openVendorModal(){
+  editingVendorId=null;
+  document.getElementById('vendorModalTitle').textContent='NEW VENDOR';
+  ['vName','vPhone','vContact','vAddr','vHours','vWarning','vAlt'].forEach(i=>document.getElementById(i).value='');
+  document.getElementById('vType').value='';
+  document.querySelectorAll('.vtype-sel-btn').forEach(b=>b.classList.remove('sel'));
+  document.getElementById('vendorOverlay').classList.add('open');
+  setTimeout(()=>document.getElementById('vName').focus(),50);
+}
+function openEditVendor(e,vid){
+  e.stopPropagation();
+  const v=db.vendors.find(x=>x.id===vid);editingVendorId=vid;
+  document.getElementById('vendorModalTitle').textContent='EDIT VENDOR';
+  document.getElementById('vName').value=v.name||'';
+  document.getElementById('vPhone').value=v.phone||'';
+  document.getElementById('vContact').value=v.contact||'';
+  document.getElementById('vAddr').value=v.addr||'';
+  document.getElementById('vHours').value=v.hours||'';
+  document.getElementById('vWarning').value=v.warning||'';
+  document.getElementById('vAlt').value=v.alt||'';
+  document.getElementById('vType').value=v.type||'';
+  document.querySelectorAll('.vtype-sel-btn').forEach(b=>{
+    b.classList.toggle('sel',b.textContent.trim()===(v.type||'').trim());
+  });
+  document.getElementById('vendorOverlay').classList.add('open');
+}
+function saveVendor(){
+  const name=document.getElementById('vName').value.trim();if(!name){alert('請填寫廠商名稱');return;}
+  const data={name,type:document.getElementById('vType').value,phone:document.getElementById('vPhone').value.trim(),contact:document.getElementById('vContact').value.trim(),addr:document.getElementById('vAddr').value.trim(),hours:document.getElementById('vHours').value.trim(),warning:document.getElementById('vWarning').value.trim(),alt:document.getElementById('vAlt').value.trim()};
+  if(!db.vendors)db.vendors=[];
+  if(editingVendorId){Object.assign(db.vendors.find(x=>x.id===editingVendorId),data);}
+  else{db.vendors.push({id:uid(),...data,products:[]});}
+  saveDB();pushAll();renderVendors();closeO('vendorOverlay');toast('已儲存');
+}
+function delVendor(e,vid){
+  e.stopPropagation();if(!confirm('確定刪除這個廠商？'))return;
+  db.vendors=db.vendors.filter(x=>x.id!==vid);
+  saveDB();pushAll();renderVendors();toast('已刪除');
+}
+
+function openProdModal(vid,idx){
+  addingProdVid=vid;editingProdIdx=(idx!==undefined)?idx:null;
+  const v=db.vendors.find(x=>x.id===vid);
+  document.getElementById('prodModalTitle').textContent=editingProdIdx!==null?'EDIT PRODUCT':'ADD PRODUCT';
+  if(editingProdIdx!==null){
+    const pr=v.products[editingProdIdx];
+    document.getElementById('prName').value=pr.name||'';
+    document.getElementById('prMaterial').value=pr.material||'';
+    document.getElementById('prSize').value=pr.size||'';
+    document.getElementById('prPrice').value=pr.price||'';
+    document.getElementById('prDays').value=pr.days||'';
+    document.getElementById('prPickup').value=pr.pickup||'';
+    document.getElementById('prNote').value=pr.note||'';
+  } else {
+    ['prName','prMaterial','prSize','prPrice','prDays','prPickup','prNote'].forEach(i=>document.getElementById(i).value='');
+  }
+  document.getElementById('prodOverlay').classList.add('open');
+  setTimeout(()=>document.getElementById('prName').focus(),50);
+}
+function saveProduct(){
+  const name=document.getElementById('prName').value.trim();if(!name){alert('請填寫品項名稱');return;}
+  const pr={name,material:document.getElementById('prMaterial').value.trim(),size:document.getElementById('prSize').value.trim(),price:document.getElementById('prPrice').value.trim(),days:document.getElementById('prDays').value.trim(),pickup:document.getElementById('prPickup').value.trim(),note:document.getElementById('prNote').value.trim()};
+  const v=db.vendors.find(x=>x.id===addingProdVid);if(!v)return;
+  if(!v.products)v.products=[];
+  if(editingProdIdx!==null){v.products[editingProdIdx]=pr;}else{v.products.push(pr);}
+  saveDB();pushAll();renderVendors();
+  document.getElementById('vb-'+addingProdVid)?.classList.add('open');
+  closeO('prodOverlay');toast('已儲存');
+}
+function delProduct(vid,idx){
+  const v=db.vendors.find(x=>x.id===vid);if(!v||!v.products)return;
+  v.products.splice(idx,1);
+  saveDB();pushAll();renderVendors();
+  document.getElementById('vb-'+vid)?.classList.add('open');
+  toast('已刪除');
+}
+
+// ── FILES ──
+function openFileModal(pid,lid){
+  fileTarget=lid?{type:'lane',pid,lid}:{type:'proj',pid};
+  document.getElementById('fileModalTitle').textContent=lid?'ADD FILE (任務線)':'ADD FILE (專案)';
+  ['fVer','fPath'].forEach(i=>document.getElementById(i).value='');
+  document.getElementById('fileOverlay').classList.add('open');
+  setTimeout(()=>document.getElementById('fVer').focus(),50);
+}
+let fileTarget=null; // {type:'proj',pid} or {type:'lane',pid,lid}
+function saveFile(){
+  const ver=document.getElementById('fVer').value.trim();
+  const path=document.getElementById('fPath').value.trim();
+  if(!path){alert('請填寫檔案路徑');return;}
+  const entry={ver,path};
+  if(fileTarget.type==='proj'){
+    const p=db.projects.find(x=>x.id===fileTarget.pid);if(!p)return;
+    if(!p.files)p.files=[];
+    p.files.push(entry);p.updatedAt=new Date().toISOString();
+    renderAll();pushAll();
+    const pb=document.getElementById('pb-'+fileTarget.pid);if(pb)pb.classList.add('open');
+  } else {
+    const p=db.projects.find(x=>x.id===fileTarget.pid);if(!p)return;
+    const l=p.lanes.find(x=>x.id===fileTarget.lid);if(!l)return;
+    if(!l.files)l.files=[];
+    l.files.push(entry);p.updatedAt=new Date().toISOString();
+    renderAll();pushAll();
+    const pb=document.getElementById('pb-'+fileTarget.pid);if(pb)pb.classList.add('open');
+  }
+  closeO('fileOverlay');toast('檔案已新增');
+}
+function delFile(pid,idx,lid){
+  const p=db.projects.find(x=>x.id===pid);if(!p)return;
+  if(lid){
+    const l=p.lanes.find(x=>x.id===lid);if(!l||!l.files)return;
+    l.files.splice(idx,1);
+  } else {
+    if(!p.files)return;
+    p.files.splice(idx,1);
+  }
+  renderAll();pushAll();
+  const pb=document.getElementById('pb-'+pid);if(pb)pb.classList.add('open');
+  toast('已刪除');
+}
+
+// ── BACKUP ──
+const BACKUP_KEY='ctrl_last_backup';
+
+function doBackup(){
+  const payload={
+    exportedAt:new Date().toISOString(),
+    version:'ctrl_v4',
+    projects:db.projects,
+    deadlines:db.deadlines,
+    reminders:db.reminders,
+    festivals:db.festivals||[],
+    booths:db.booths||[],
+    vendors:db.vendors||[],
+  };
+  const json=JSON.stringify(payload,null,2);
+  const blob=new Blob([json],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  const date=new Date().toISOString().split('T')[0];
+  a.href=url;a.download='control-backup-'+date+'.json';
+  a.click();URL.revokeObjectURL(url);
+  localStorage.setItem(BACKUP_KEY,Date.now().toString());
+  checkBackupReminder();
+  toast('✓ 備份已下載');
+}
+
+function dismissBackup(){
+  document.getElementById('backupBanner').style.display='none';
+  // Snooze 2 days
+  localStorage.setItem(BACKUP_KEY,(Date.now()-5*24*60*60*1000).toString());
+}
+
+function checkBackupReminder(){
+  const banner=document.getElementById('backupBanner');if(!banner)return;
+  const last=parseInt(localStorage.getItem(BACKUP_KEY)||'0');
+  const daysSince=Math.floor((Date.now()-last)/(1000*60*60*24));
+  if(daysSince>=7){
+    banner.style.display='flex';
+    // Update message
+    const msg=banner.querySelector('strong');
+    if(msg&&last>0)msg.nextSibling.textContent=' 距離上次備份已 '+daysSince+' 天，建議下載備份。';
+  } else {
+    banner.style.display='none';
+  }
+}
+
 // ── SHEETS SYNC ──
 const API_URL='https://script.google.com/macros/s/AKfycbwZCrknnoHUhfXs1Xm1VOjseMfqHAB2yT48dbLBW0LQk3Ptf8hueWZOsXplqXZVmRpB/exec';
 
@@ -1265,6 +1804,7 @@ async function pushAll(){
     await callAPI('saveBlob',{key:'reminders',val:db.reminders});
     await callAPI('saveBlob',{key:'festivals',val:db.festivals||[]});
     await callAPI('saveBlob',{key:'booths',val:db.booths||[]});
+    await callAPI('saveBlob',{key:'vendors',val:db.vendors||[]});
     setSyncDot('ok');
   }catch(e){setSyncDot('err');console.warn('sync error',e);}
 }
@@ -1279,6 +1819,7 @@ async function pullAll(){
     if(result.reminders!=null)db.reminders=result.reminders;
     if(result.festivals!=null)db.festivals=result.festivals;
     if(result.booths!=null)db.booths=result.booths;
+    if(result.vendors!=null)db.vendors=result.vendors;
     saveDB();renderAll();
     if(document.getElementById('festivalList'))renderAnnual();
     setSyncDot('ok');
@@ -1294,6 +1835,7 @@ function saveAndPush(){saveDB();pushAll();}
 // Init: pull from Sheets on load
 renderAll();
 pullAll();
+checkBackupReminder();
 // Auto-sync every 90 seconds
 setInterval(pullAll,90000);
 </script>
