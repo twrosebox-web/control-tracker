@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>CONTROL</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+:root{
+  --bg:#f5f4f0;--s1:#fff;--s2:#f8f7f4;--s3:#f0efe9;
+  --border:#e2e0d8;--text:#1a1916;--muted:#8a8880;--dim:#c0beb8;
+  --amber:#c07a1a;--amber-bg:#fdf6e8;
+  --green:#2a7a4a;--green-bg:#edf7f0;
+  --rose:#c04040;--rose-bg:#fdf0f0;
+  --blue:#2a6ab8;--blue-bg:#eef4fd;
+  --purple:#6b52c8;--purple-bg:#f2f0fb;--teal:#1a8a78;--teal-bg:#e8f7f5;--pink:#c0408a;--pink-bg:#fdf0f8;
+  --ink:#1a1916;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans TC',sans-serif;min-height:100vh;font-size:18px}
+
+nav{background:var(--ink);display:flex;align-items:center;padding:0 18px;height:50px;position:sticky;top:0;z-index:200;gap:0;overflow-x:auto;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+.logo{font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:600;color:var(--amber);letter-spacing:4px;margin-right:20px;white-space:nowrap;flex-shrink:0}
+.ntab{background:none;border:none;color:rgba(255,255,255,.3);font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:1px;padding:0 16px;height:50px;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .15s;flex-shrink:0}
+.ntab:hover{color:rgba(255,255,255,.7)}.ntab.active{color:#fff;border-bottom-color:var(--amber)}
+.nav-right{margin-left:auto;display:flex;gap:8px;align-items:center;flex-shrink:0}
+.npill{font-family:'IBM Plex Mono',monospace;font-size:13px;padding:3px 9px;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.35);white-space:nowrap}
+.npill.go{border-color:var(--green);color:#6ee09a}
+.npill.warn{border-color:#c04040;color:#f09090}
+.meeting-btn{font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:1px;padding:5px 12px;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.5);background:none;cursor:pointer;transition:all .15s}
+.meeting-btn:hover{border-color:var(--amber);color:var(--amber)}
+.meeting-btn.active{background:rgba(192,122,26,.15);border-color:var(--amber);color:var(--amber)}
+
+.main{max-width:980px;margin:0 auto;padding:20px 16px 80px}
+.panel{display:none}.panel.active{display:block}
+
+/* TODAY */
+.today-hero{background:var(--ink);padding:18px 20px;margin-bottom:18px;display:flex;align-items:flex-start;gap:20px;flex-wrap:wrap}
+.hero-date .hdate{font-size:20px;font-weight:700;color:#fff}
+.hero-date .hweek{font-family:'IBM Plex Mono',monospace;font-size:13px;color:rgba(255,255,255,.35);margin-top:3px}
+.hero-stats{display:flex;gap:16px;margin-left:auto;flex-wrap:wrap}
+.hstat{text-align:center}
+.hstat-n{font-family:'IBM Plex Mono',monospace;font-size:26px;font-weight:700}
+.hstat-n.go{color:#6ee09a}.hstat-n.warn{color:#f09090}.hstat-n.dim{color:rgba(255,255,255,.4)}
+.hstat-l{font-size:14px;color:rgba(255,255,255,.5);margin-top:2px}
+
+.sec-hd{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.sec-hd::after{content:'';flex:1;height:1px;background:var(--border)}
+.sec-lbl{font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:2px;color:var(--text);font-weight:600}
+.sec-lbl.go{color:var(--green)}.sec-lbl.warn{color:var(--rose)}
+
+.alert-list{display:flex;flex-direction:column;gap:6px;margin-bottom:18px}
+.alert-card{padding:10px 14px;border-left:3px solid;display:flex;align-items:center;gap:12px;background:var(--s1);border:1px solid var(--border)}
+.alert-card.urgent{border-left-color:var(--rose);background:var(--rose-bg)}
+.alert-card.warn{border-left-color:var(--amber);background:var(--amber-bg)}
+.alert-card.info{border-left-color:var(--blue);background:var(--blue-bg)}
+.alert-body{flex:1}
+.alert-title{font-size:16px;font-weight:600}
+.alert-sub{font-size:14px;color:var(--muted);margin-top:2px}
+.alert-days{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:700;white-space:nowrap}
+.alert-days.urgent{color:var(--rose)}.alert-days.warn{color:var(--amber)}.alert-days.info{color:var(--blue)}
+
+.todo-list{display:flex;flex-direction:column;gap:6px;margin-bottom:20px}
+.todo-item{background:var(--s1);border:1px solid var(--border);border-left:3px solid var(--green);padding:10px 14px;display:flex;align-items:flex-start;gap:10px}
+.todo-item.wait{border-left-color:var(--dim);opacity:.75}
+.todo-proj{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--text);font-weight:500;white-space:nowrap;min-width:72px;padding-top:2px;flex-shrink:0}
+.todo-name{font-size:16px;font-weight:600}
+.todo-detail{font-size:15px;color:var(--muted);margin-top:2px;line-height:1.5}
+.todo-wait-reason{font-size:13px;font-family:'IBM Plex Mono',monospace;color:var(--amber);margin-top:3px}
+.todo-toggle{margin-left:auto;background:none;border:1px solid var(--border);color:var(--dim);cursor:pointer;font-size:13px;font-family:'IBM Plex Mono',monospace;padding:3px 8px;white-space:nowrap;transition:all .15s;flex-shrink:0}
+.todo-toggle:hover{border-color:var(--green);color:var(--green)}
+.todo-item.wait .todo-toggle:hover{border-color:var(--amber);color:var(--amber)}
+
+/* PROJECTS */
+.proj-toolbar{display:flex;justify-content:flex-end;margin-bottom:14px;gap:8px}
+.pcard{background:var(--s1);border:1px solid var(--border);border-left:3px solid var(--blue);margin-bottom:10px;transition:border-color .2s}
+.pcard.urgent{border-left-color:var(--rose)}
+.pcard.all-wait{border-left-color:var(--dim)}
+.pcard-head{padding:12px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none}
+.pcard-head:hover .pname{color:var(--amber)}
+.pname{font-size:17px;font-weight:700;transition:color .15s;flex:1}
+.pmeta{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--text);margin-top:3px;display:flex;gap:10px;flex-wrap:wrap}
+.pmeta .dead{color:var(--rose)}
+.lane-pills{display:flex;gap:4px;flex-wrap:wrap}
+.lpill{font-size:13px;font-family:'IBM Plex Mono',monospace;padding:2px 6px;border:1px solid}
+.lpill.go{border-color:var(--green);color:var(--green)}.lpill.wait{border-color:var(--dim);color:var(--dim)}
+
+.pcard-body{display:none;border-top:1px solid var(--border)}.pcard-body.open{display:block}
+.pcard-inner{padding:14px 16px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:580px){.pcard-inner{grid-template-columns:1fr}}
+.full{grid-column:1/-1}
+.flabel{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--text);font-weight:500;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px}
+.fld{width:100%;background:var(--s2);border:1px solid var(--border);color:var(--text);font-family:'Noto Sans TC',sans-serif;font-size:16px;padding:8px 10px;resize:vertical;min-height:60px;line-height:1.7}
+.fld:focus{outline:none;border-color:var(--blue)}.fld::placeholder{color:var(--dim)}
+.finput{width:100%;background:var(--s2);border:1px solid var(--border);color:var(--text);font-family:'Noto Sans TC',sans-serif;font-size:15px;padding:8px 10px}
+.finput:focus{outline:none;border-color:var(--blue)}.finput::placeholder{color:var(--dim)}
+
+/* PEOPLE TAGS */
+.people-row{display:flex;gap:6px;flex-wrap:wrap;align-items:center;min-height:30px}
+.person-tag{background:var(--s3);border:1px solid var(--border);font-size:14px;padding:3px 9px;display:flex;align-items:center;gap:5px}
+.person-tag button{background:none;border:none;color:var(--dim);cursor:pointer;font-size:13px;padding:0;line-height:1}
+.person-tag button:hover{color:var(--rose)}
+.person-add{background:none;border:1px dashed var(--border);color:var(--muted);font-size:14px;padding:3px 9px;cursor:pointer;transition:all .15s}
+.person-add:hover{border-color:var(--blue);color:var(--blue)}
+
+/* GANTT */
+.gantt-wrap{overflow-x:auto;padding-bottom:4px}
+.gantt{min-width:600px}
+.gantt-header{display:flex;border-bottom:1px solid var(--border);margin-bottom:4px}
+.gantt-label{width:160px;flex-shrink:0;font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--muted);padding:3px 0}
+.gantt-months{flex:1;display:flex}
+.gantt-month{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--muted);text-align:center;border-left:1px solid var(--border);padding:3px 0}
+.gantt-row{display:flex;align-items:center;margin-bottom:5px;min-height:24px}
+.gantt-row-label{width:160px;flex-shrink:0;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:8px;color:var(--text)}
+.gantt-row-label.muted{color:var(--muted);font-size:14px}
+.gantt-track{flex:1;height:20px;position:relative;background:var(--s3)}
+.gantt-bar{position:absolute;height:100%;display:flex;align-items:center;padding:0 5px;font-size:13px;font-family:'IBM Plex Mono',monospace;color:#fff;white-space:nowrap;overflow:hidden;min-width:4px}
+.gantt-bar.proj{background:var(--blue)}
+.gantt-bar.urgent{background:var(--rose)}
+.gantt-bar.done-bar{background:var(--green)}
+.gantt-today{position:absolute;top:0;bottom:0;width:1px;background:var(--rose);z-index:2}
+
+/* LANES */
+.lane-item{background:var(--s2);border:1px solid var(--border);border-left:3px solid var(--dim);padding:9px 12px;display:flex;align-items:flex-start;gap:9px;margin-bottom:5px}
+.lane-item.go{border-left-color:var(--green)}.lane-item.wait{border-left-color:var(--amber);opacity:.8}
+.lane-sbtn{background:none;border:1px solid var(--dim);color:var(--dim);font-family:'IBM Plex Mono',monospace;font-size:13px;padding:2px 6px;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;margin-top:1px}
+.lane-item.go .lane-sbtn{border-color:var(--green);color:var(--green)}
+.lane-item.wait .lane-sbtn{border-color:var(--amber);color:var(--amber)}
+.lane-name{font-size:16px;font-weight:600}
+.lane-detail{font-size:15px;color:var(--text);opacity:.7;margin-top:2px;line-height:1.5}
+.lane-wait-r{font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--amber);margin-top:2px}
+.lane-dates{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--dim);margin-top:2px}
+.lane-eta{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--dim);white-space:nowrap;flex-shrink:0;margin-top:1px}
+
+/* SCHEDULE */
+.week-nav{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.week-lbl{font-family:'IBM Plex Mono',monospace;font-size:16px;flex:1;text-align:center}
+.week-btn{background:var(--s1);border:1px solid var(--border);color:var(--muted);width:28px;height:28px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.week-btn:hover{border-color:var(--ink);color:var(--ink)}
+.week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:20px}
+.day-hdr{text-align:center;font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--text);font-weight:500;padding:4px 0;letter-spacing:1px}
+.day-num{width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:500;margin:0 auto 3px;border-radius:50%}
+.day-num.today{background:var(--ink);color:#fff}
+.day-events{display:flex;flex-direction:column;gap:2px}
+.dev{font-size:13px;padding:3px 4px;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:default}
+.dev.deadline{background:var(--rose-bg);color:var(--rose);border-left:2px solid var(--rose)}
+.dev.reminder{background:var(--amber-bg);color:var(--amber);border-left:2px solid var(--amber)}
+.dev.proj{background:var(--blue-bg);color:var(--blue);border-left:2px solid var(--blue)}
+.dev.start{background:var(--green-bg);color:var(--green);border-left:2px solid var(--green)}
+
+.upcoming-list{display:flex;flex-direction:column;gap:6px}
+.up-item{background:var(--s1);border:1px solid var(--border);padding:10px 14px;display:flex;align-items:flex-start;gap:12px}
+.up-date{font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--text);min-width:48px;white-space:nowrap}
+.up-date.urgent{color:var(--rose)}.up-date.warn{color:var(--amber)}
+.up-name{font-size:16px;font-weight:600}.up-note{font-size:15px;color:var(--muted);margin-top:2px}
+.up-badge{font-family:'IBM Plex Mono',monospace;font-size:13px;padding:2px 7px;border:1px solid;margin-left:auto;flex-shrink:0;white-space:nowrap}
+.up-badge.deadline{border-color:var(--rose);color:var(--rose)}
+.up-badge.reminder{border-color:var(--amber);color:var(--amber)}
+.up-badge.proj{border-color:var(--blue);color:var(--blue)}
+.up-badge.start{border-color:var(--green);color:var(--green)}
+.up-badge.festival{border-color:var(--rose);color:var(--rose)}
+.up-badge.vendor{border-color:var(--purple);color:var(--purple)}
+.up-badge.social{border-color:var(--teal);color:var(--teal)}
+.dev.festival{background:var(--rose-bg);color:var(--rose);border-left:2px solid var(--rose)}
+.dev.vendor{background:var(--purple-bg);color:var(--purple);border-left:2px solid var(--purple)}
+.dev.social{background:var(--teal-bg);color:var(--teal);border-left:2px solid var(--teal)}
+
+/* MEETING OVERLAY */
+.m-overlay{display:none;position:fixed;inset:0;background:rgba(10,9,8,.92);z-index:300;overflow-y:auto;padding:24px 16px}
+.m-overlay.open{display:block}
+.m-inner{max-width:680px;margin:0 auto}
+.m-top{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+.m-title{font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:600;color:var(--amber);letter-spacing:3px}
+.m-sub{font-family:'IBM Plex Mono',monospace;font-size:13px;color:rgba(255,255,255,.3);margin-top:3px}
+.m-close{margin-left:auto;background:none;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.4);font-family:'IBM Plex Mono',monospace;font-size:13px;padding:6px 14px;cursor:pointer;transition:all .15s}
+.m-close:hover{border-color:#fff;color:#fff}
+
+.m-proj-select{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:20px}
+.m-proj-chip{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.6);font-size:15px;padding:5px 12px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:6px;user-select:none}
+.m-proj-chip.sel{border-color:var(--amber);color:#fff;background:rgba(192,122,26,.15)}
+.m-proj-chip .chk{width:14px;height:14px;border:1px solid;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;transition:all .15s}
+.m-proj-chip .chk{border-color:rgba(255,255,255,.2)}
+.m-proj-chip.sel .chk{border-color:var(--amber);background:var(--amber);color:#fff}
+
+.m-proj-block{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-left:3px solid var(--amber);padding:16px 18px;margin-bottom:10px}
+.m-proj-name{font-size:17px;font-weight:700;color:#fff;margin-bottom:4px;display:flex;align-items:center;gap:12px}
+.m-proj-dead{font-family:'IBM Plex Mono',monospace;font-size:13px}
+.m-proj-progress{font-size:14px;color:rgba(255,255,255,.4);padding:7px 10px;background:rgba(255,255,255,.03);border-left:2px solid rgba(255,255,255,.1);margin-bottom:10px;line-height:1.6}
+.m-lane{display:flex;align-items:flex-start;gap:10px;padding:6px 0;border-top:1px solid rgba(255,255,255,.05)}
+.m-lane-st{font-family:'IBM Plex Mono',monospace;font-size:13px;padding:2px 6px;border:1px solid;white-space:nowrap;flex-shrink:0;margin-top:2px}
+.m-lane-st.go{border-color:var(--green);color:#6ee09a}
+.m-lane-st.wait{border-color:rgba(255,255,255,.15);color:rgba(255,255,255,.25)}
+.m-lane-name{font-size:16px;color:#fff;font-weight:500}
+.m-lane-detail{font-size:15px;color:rgba(255,255,255,.5);margin-top:2px}
+.m-lane-wait{font-size:13px;font-family:'IBM Plex Mono',monospace;color:rgba(255,180,80,.6);margin-top:2px}
+.m-people{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+.m-person{font-size:13px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);padding:2px 9px;color:rgba(255,255,255,.4)}
+
+/* MODAL */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:400;align-items:center;justify-content:center;padding:14px}
+.overlay.open{display:flex}
+.modal{background:var(--s1);border:1px solid var(--border);width:100%;max-width:460px;padding:20px;box-shadow:0 8px 32px rgba(0,0,0,.15);animation:mup .18s;max-height:92vh;overflow-y:auto}
+@keyframes mup{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.modal-title{font-family:'IBM Plex Mono',monospace;font-size:15px;letter-spacing:3px;color:var(--amber);margin-bottom:14px;font-weight:600}
+.fg{margin-bottom:10px}
+.fl{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--text);display:block;margin-bottom:4px;letter-spacing:1px}
+.fi,.fsel,.fta{width:100%;background:var(--s2);border:1px solid var(--border);color:var(--text);font-family:'Noto Sans TC',sans-serif;font-size:16px;padding:8px 10px}
+.fta{resize:vertical;min-height:60px}.fi:focus,.fsel:focus,.fta:focus{outline:none;border-color:var(--amber)}
+.date-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.status-row{display:flex;gap:7px}
+.sr-btn{flex:1;padding:6px;border:1px solid var(--border);background:none;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--muted);transition:all .15s}
+.sr-btn.sel.go{border-color:var(--green);color:var(--green);background:var(--green-bg)}
+.sr-btn.sel.wait{border-color:var(--amber);color:var(--amber);background:var(--amber-bg)}
+.modal-btns{display:flex;gap:8px;justify-content:flex-end;margin-top:14px}
+.btn{font-family:'IBM Plex Mono',monospace;font-size:14px;padding:7px 16px;border:none;cursor:pointer;transition:all .15s}
+.btn-amber{background:var(--amber);color:#fff}.btn-amber:hover{opacity:.85}
+.btn-ghost{background:none;border:1px solid var(--border);color:var(--muted)}.btn-ghost:hover{border-color:var(--ink);color:var(--ink)}
+.btn-ink{background:var(--ink);color:#fff}.btn-ink:hover{background:#333}
+.icon-btn{background:none;border:1px solid var(--border);color:var(--muted);width:24px;height:24px;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0}
+.icon-btn:hover{border-color:var(--amber);color:var(--amber)}.icon-btn.del:hover{border-color:var(--rose);color:var(--rose)}
+
+.etype-btn{background:var(--s2);border:1px solid var(--border);color:var(--muted);font-family:'Noto Sans TC',sans-serif;font-size:15px;padding:8px 12px;cursor:pointer;transition:all .15s;text-align:left}
+.etype-btn:hover{border-color:var(--amber);color:var(--text)}
+.etype-btn.sel{border-color:var(--amber);color:var(--amber);background:var(--amber-bg);font-weight:600}
+
+/* ANNUAL */
+.annual-section{background:var(--s1);border:1px solid var(--border);padding:16px 18px}
+.annual-sec-head{display:flex;align-items:center;gap:14px;margin-bottom:16px;flex-wrap:wrap}
+.annual-sec-icon{font-size:24px;flex-shrink:0}
+.annual-sec-title{font-size:17px;font-weight:700}
+.annual-sec-sub{font-size:14px;color:var(--muted);margin-top:2px}
+
+.annual-item{background:var(--s2);border:1px solid var(--border);border-left:3px solid var(--border);padding:12px 14px;margin-bottom:7px;display:flex;align-items:flex-start;gap:12px}
+.annual-item.upcoming{border-left-color:var(--green)}
+.annual-item.soon{border-left-color:var(--amber)}
+.annual-item.urgent{border-left-color:var(--rose)}
+.annual-item.past{opacity:.5}
+.ai-date{font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--text);white-space:nowrap;min-width:52px;padding-top:2px}
+.ai-name{font-size:16px;font-weight:600}
+.ai-note{font-size:14px;color:var(--muted);margin-top:2px}
+.ai-days{font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:700;white-space:nowrap;flex-shrink:0;padding-top:2px}
+.ai-days.ok{color:var(--green)}.ai-days.soon{color:var(--amber)}.ai-days.urgent{color:var(--rose)}.ai-days.past{color:var(--dim)}
+.ai-reminders{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.ai-reminder-chip{font-family:'IBM Plex Mono',monospace;font-size:13px;padding:2px 7px;border:1px solid var(--border);color:var(--muted);background:var(--s1)}
+.ai-reminder-chip.active{border-color:var(--amber);color:var(--amber);background:var(--amber-bg)}
+.ai-reminder-chip.done{border-color:var(--green);color:var(--green);background:var(--green-bg)}
+
+.toast{position:fixed;bottom:16px;right:16px;background:var(--ink);color:#fff;font-family:'IBM Plex Mono',monospace;font-size:13px;padding:8px 14px;z-index:500;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.show{opacity:1}
+.empty{text-align:center;padding:32px;color:var(--muted);font-size:15px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">CONTROL</div>
+  <button class="ntab active" onclick="switchTab('today')">TODAY</button>
+  <button class="ntab" onclick="switchTab('projects')">專案</button>
+  <button class="ntab" onclick="switchTab('gantt')">時間軸</button>
+  <button class="ntab" onclick="switchTab('schedule')">日程</button>
+  <button class="ntab" onclick="switchTab('annual')">年度設定</button>
+  <div class="nav-right">
+    <span class="npill go" id="navGo">0 GO</span>
+    <span class="npill warn" id="navWarn" style="display:none">!</span>
+    <div id="syncDot" title="點擊同步" style="width:8px;height:8px;border-radius:50%;background:var(--dim);flex-shrink:0;cursor:pointer" onclick="pullAll()"></div>
+    <button class="meeting-btn" id="syncBtn" onclick="pullAll()" style="font-size:10px;padding:3px 8px;opacity:.5">↻</button>
+    <button class="meeting-btn" id="meetingBtn" onclick="openMeeting()">⚑ 開會</button>
+  </div>
+</nav>
+
+<!-- MEETING OVERLAY -->
+<div class="m-overlay" id="mOverlay">
+  <div class="m-inner">
+    <div class="m-top">
+      <div>
+        <div class="m-title">MEETING MODE</div>
+        <div class="m-sub" id="mDate"></div>
+      </div>
+      <button class="m-close" onclick="closeMeeting()">✕ 結束</button>
+    </div>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:rgba(255,255,255,.25);letter-spacing:1px;margin-bottom:10px">選擇要報告的專案</div>
+    <div class="m-proj-select" id="mProjSelect"></div>
+    <div id="mContent"></div>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- TODAY -->
+<div class="panel active" id="panel-today">
+  <div class="today-hero">
+    <div class="hero-date">
+      <div class="hdate" id="todayDate"></div>
+      <div class="hweek" id="todayWeek"></div>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-n go" id="sGo">0</div><div class="hstat-l">可推進</div></div>
+      <div class="hstat"><div class="hstat-n dim" id="sWait">0</div><div class="hstat-l">等待中</div></div>
+      <div class="hstat"><div class="hstat-n warn" id="sUrgent">0</div><div class="hstat-l">快到期</div></div>
+    </div>
+  </div>
+  <div id="alertList" class="alert-list"></div>
+  <div class="sec-hd"><span class="sec-lbl go">▶ 可推進</span></div>
+  <div class="todo-list" id="todayGo"></div>
+  <div class="sec-hd" style="margin-top:6px"><span class="sec-lbl">⏸ 等待中</span></div>
+  <div class="todo-list" id="todayWait"></div>
+</div>
+
+<!-- PROJECTS -->
+<div class="panel" id="panel-projects">
+  <div class="proj-toolbar">
+    <button class="btn btn-ink" onclick="openProjModal()">＋ 新增專案</button>
+  </div>
+  <div id="projGrid"></div>
+</div>
+
+<!-- GANTT -->
+<div class="panel" id="panel-gantt">
+  <div style="margin-bottom:14px;font-size:15px;color:var(--muted)">顯示所有設有日期的專案與任務線</div>
+  <div class="gantt-wrap"><div class="gantt" id="ganttChart"></div></div>
+</div>
+
+<!-- SCHEDULE -->
+<div class="panel" id="panel-schedule">
+  <div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:14px">
+    <button class="btn btn-ghost" onclick="openReminderModal()">＋ 新增事件</button>
+    <button class="btn btn-ink" onclick="openDeadlineModal()">＋ 截止日</button>
+  </div>
+  <div class="week-nav">
+    <button class="week-btn" onclick="weekOff--;renderSchedule()">‹</button>
+    <div class="week-lbl" id="weekLbl"></div>
+    <button class="week-btn" onclick="weekOff++;renderSchedule()">›</button>
+  </div>
+  <div class="week-grid" id="weekGrid"></div>
+  <div class="sec-hd" style="margin-bottom:10px"><span class="sec-lbl">即將到來（30天內）</span></div>
+  <div class="upcoming-list" id="upcomingList"></div>
+</div>
+
+</div>
+
+<!-- ANNUAL PANEL -->
+<div class="panel" id="panel-annual">
+  <div class="annual-section">
+    <div class="annual-sec-head">
+      <div class="annual-sec-icon">🎉</div>
+      <div>
+        <div class="annual-sec-title">節慶賀圖</div>
+        <div class="annual-sec-sub">自動提醒：21天前構思・16天前設計・7天前交老闆確認・當天設定發放</div>
+      </div>
+      <button class="btn btn-ink" style="margin-left:auto" onclick="openAnnualModal('festival')">＋ 新增節慶</button>
+    </div>
+    <div id="festivalList"></div>
+  </div>
+  <div class="annual-section" style="margin-top:20px">
+    <div class="annual-sec-head">
+      <div class="annual-sec-icon">🏭</div>
+      <div>
+        <div class="annual-sec-title">擺攤 / 展售活動</div>
+        <div class="annual-sec-sub">自動提醒：前月23日公告・17天前詢問物料・12天前上網公告・3天前最終確認</div>
+      </div>
+      <button class="btn btn-ink" style="margin-left:auto" onclick="openAnnualModal('booth')">＋ 新增擺攤</button>
+    </div>
+    <div id="boothList"></div>
+  </div>
+</div>
+
+<!-- PROJECT MODAL -->
+<div class="overlay" id="projOverlay">
+  <div class="modal">
+    <div class="modal-title" id="projModalTitle">NEW PROJECT</div>
+    <div class="fg"><label class="fl">專案名稱 *</label><input class="fi" id="pName" placeholder="例：週年慶活動"/></div>
+    <div class="fg"><label class="fl">開始 / 截止日期</label>
+      <div class="date-row">
+        <input class="fi" type="date" id="pStart" placeholder="開始"/>
+        <input class="fi" type="date" id="pEnd" placeholder="截止"/>
+      </div>
+    </div>
+    <div class="fg"><label class="fl">相關人物</label>
+      <input class="fi" id="pPeopleInput" placeholder="輸入姓名後按 Enter" onkeydown="addPersonFromInput(event)"/>
+      <div id="pPeopleTags" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px"></div>
+    </div>
+    <div class="fg"><label class="fl">備注</label><textarea class="fta" id="pNote" placeholder="任何備注..."></textarea></div>
+    <div class="modal-btns">
+      <button class="btn btn-ghost" onclick="closeO('projOverlay')">取消</button>
+      <button class="btn btn-amber" onclick="saveProject()">儲存</button>
+    </div>
+  </div>
+</div>
+
+<!-- LANE MODAL -->
+<div class="overlay" id="laneOverlay">
+  <div class="modal">
+    <div class="modal-title" id="laneModalTitle">ADD LANE</div>
+    <div class="fg"><label class="fl">任務線名稱 *</label><input class="fi" id="lName" placeholder="例：設計稿、文案確認"/></div>
+    <div class="fg"><label class="fl">狀態</label>
+      <div class="status-row">
+        <button class="sr-btn sel go" id="lsGo" onclick="selLS('go')">▶ 可推進</button>
+        <button class="sr-btn wait" id="lsWait" onclick="selLS('wait')">⏸ 等待中</button>
+      </div>
+    </div>
+    <div class="fg" id="lWaitGroup" style="display:none"><label class="fl">等待原因</label><input class="fi" id="lWaitR" placeholder="等誰/等什麼"/></div>
+    <div class="fg"><label class="fl">開始 / 截止日期</label>
+      <div class="date-row">
+        <input class="fi" type="date" id="lStart"/>
+        <input class="fi" type="date" id="lEnd"/>
+      </div>
+    </div>
+    <div class="fg"><label class="fl">進度備注</label><input class="fi" id="lDetail" placeholder="做到哪、下一步"/></div>
+    <div class="fg"><label class="fl">預估完成</label><input class="fi" id="lEta" placeholder="例：2天、下週五"/></div>
+    <div class="modal-btns">
+      <button class="btn btn-ghost" onclick="closeO('laneOverlay')">取消</button>
+      <button class="btn btn-amber" onclick="saveLane()">儲存</button>
+    </div>
+  </div>
+</div>
+
+<!-- DEADLINE MODAL -->
+<div class="overlay" id="deadlineOverlay">
+  <div class="modal">
+    <div class="modal-title">NEW DEADLINE</div>
+    <div class="fg"><label class="fl">名稱 *</label><input class="fi" id="dlName" placeholder="例：提案簡報交件"/></div>
+    <div class="fg"><label class="fl">日期 *</label><input class="fi" type="date" id="dlDate"/></div>
+    <div class="fg"><label class="fl">關聯專案</label><select class="fsel" id="dlProj"><option value="">無</option></select></div>
+    <div class="fg"><label class="fl">備注</label><input class="fi" id="dlNote" placeholder="選填"/></div>
+    <div class="modal-btns">
+      <button class="btn btn-ghost" onclick="closeO('deadlineOverlay')">取消</button>
+      <button class="btn btn-amber" onclick="saveDeadline()">儲存</button>
+    </div>
+  </div>
+</div>
+
+<!-- EVENT MODAL -->
+<div class="overlay" id="reminderOverlay">
+  <div class="modal">
+    <div class="modal-title">NEW EVENT</div>
+    <div class="fg"><label class="fl">事件類型</label>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+        <button class="etype-btn sel" id="et-reminder" onclick="selEtype('reminder')">🔔 一般提醒</button>
+        <button class="etype-btn" id="et-festival" onclick="selEtype('festival')">🎉 節慶賀圖</button>
+        <button class="etype-btn" id="et-vendor" onclick="selEtype('vendor')">🏭 廠商拜訪/會議</button>
+        <button class="etype-btn" id="et-deadline" onclick="selEtype('deadline')">📌 重要截止日</button>
+        <button class="etype-btn" id="et-social" onclick="selEtype('social')">📰 社群發文/活動</button>
+      </div>
+    </div>
+    <div class="fg"><label class="fl">名稱 *</label><input class="fi" id="rmName" placeholder="例：母親節賀圖、拜訪XX廠商"/></div>
+    <div class="fg"><label class="fl">日期 *</label><input class="fi" type="date" id="rmDate"/></div>
+    <div class="fg"><label class="fl">備注</label><input class="fi" id="rmNote" placeholder="選填"/></div>
+    <div class="modal-btns">
+      <button class="btn btn-ghost" onclick="closeO('reminderOverlay')">取消</button>
+      <button class="btn btn-amber" onclick="saveReminder()">儲存</button>
+    </div>
+  </div>
+</div>
+
+<!-- ANNUAL MODAL -->
+<div class="overlay" id="annualOverlay">
+  <div class="modal">
+    <div class="modal-title" id="annualModalTitle">NEW FESTIVAL</div>
+    <div class="fg"><label class="fl">名稱 *</label><input class="fi" id="anName" placeholder="例：母親節、中秋節"/></div>
+    <div class="fg"><label class="fl">日期 *</label><input class="fi" type="date" id="anDate"/></div>
+    <div class="fg"><label class="fl">每年重複</label>
+      <select class="fsel" id="anRepeat">
+        <option value="1">是（每年固定）</option>
+        <option value="0">否（單次）</option>
+      </select>
+    </div>
+    <div class="fg"><label class="fl">備注</label><input class="fi" id="anNote" placeholder="例：需要繁體版、老闆喜歡暖色系"/></div>
+    <div class="modal-btns">
+      <button class="btn btn-ghost" onclick="closeO('annualOverlay')">取消</button>
+      <button class="btn btn-amber" onclick="saveAnnual()">儲存</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const KEY='ctrl_v4';
+function loadDB(){try{return JSON.parse(localStorage.getItem(KEY))||defDB()}catch{return defDB()}}
+function saveDB(){localStorage.setItem(KEY,JSON.stringify(db))}
+function defDB(){return{projects:[],deadlines:[],reminders:[],festivals:[
+  {id:'af1',name:'農曆新年',date:'2026-01-29',repeat:true,note:'紅金色系，需要直式橫式各一'},
+  {id:'af2',name:'情人節',date:'2026-02-14',repeat:true,note:''},
+  {id:'af3',name:'母親節',date:'2026-05-10',repeat:true,note:'暖色系、花卉元素'},
+  {id:'af4',name:'中秋節',date:'2026-10-01',repeat:true,note:''},
+  {id:'af5',name:'聖誕節',date:'2026-12-25',repeat:true,note:''},
+],booths:[]}}
+
+let db=loadDB();
+let laneStatusSel='go';
+let editingLaneInfo=null;
+let addingLanePid=null;
+let editingProjId=null;
+let weekOff=0;
+let tmpPeople=[];
+let meetingSelected=new Set();
+let etypeSel='reminder';
+
+function selEtype(t){
+  etypeSel=t;
+  ['reminder','festival','vendor','deadline','social'].forEach(type=>{
+    const btn=document.getElementById('et-'+type);
+    if(btn)btn.className='etype-btn'+(type===t?' sel':'');
+  });
+}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,5)}
+function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2000)}
+function closeO(id){const el=document.getElementById(id);if(el)el.classList.remove('open');}
+function daysUntil(d){if(!d)return null;const now=new Date();now.setHours(0,0,0,0);const dt=new Date(d);dt.setHours(0,0,0,0);return Math.round((dt-now)/86400000)}
+function fmtD(d){if(!d)return'';const x=new Date(d);return(x.getMonth()+1)+'/'+(x.getDate())}
+
+// TAB
+function switchTab(tab){
+  document.querySelectorAll('.ntab').forEach((b,i)=>b.classList.toggle('active',['today','projects','gantt','schedule','annual'][i]===tab));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  const panelEl=document.getElementById('panel-'+tab);if(panelEl)panelEl.classList.add('active');
+  if(tab==='schedule')renderSchedule();
+  if(tab==='gantt')renderGantt();
+  if(tab==='annual'){renderAnnual();}
+}
+
+function renderAll(){
+  saveDB();updateNav();renderToday();renderProjects();
+}
+
+function updateNav(){
+  const go=db.projects.reduce((n,p)=>n+p.lanes.filter(l=>l.status==='go').length,0);
+  document.getElementById('navGo').textContent=go+' GO';
+  const urgent=[...db.deadlines,...db.reminders].filter(d=>{const days=daysUntil(d.date);return days!==null&&days>=0&&days<=3}).length;
+  const w=document.getElementById('navWarn');
+  w.style.display=urgent>0?'':'none';
+  w.textContent=urgent+' 快到期';
+}
+
+// TODAY
+function renderToday(){
+  const now=new Date();
+  document.getElementById('todayDate').textContent=now.toLocaleDateString('zh-TW',{year:'numeric',month:'long',day:'numeric'});
+  document.getElementById('todayWeek').textContent=now.toLocaleDateString('zh-TW',{weekday:'long'});
+  const go=db.projects.reduce((n,p)=>n+p.lanes.filter(l=>l.status==='go').length,0);
+  const wait=db.projects.reduce((n,p)=>n+p.lanes.filter(l=>l.status==='wait').length,0);
+  const urgent=[...db.deadlines,...db.reminders].filter(d=>{const days=daysUntil(d.date);return days!==null&&days>=0&&days<=3}).length;
+  document.getElementById('sGo').textContent=go;
+  document.getElementById('sWait').textContent=wait;
+  document.getElementById('sUrgent').textContent=urgent;
+
+  const al=document.getElementById('alertList');al.innerHTML='';
+  const autoAlerts=[];
+  const items=[...db.deadlines,...db.reminders].filter(d=>{const days=daysUntil(d.date);return days!==null&&days>=0&&days<=7;})
+    .sort((a,b)=>daysUntil(a.date)-daysUntil(b.date));
+  items.forEach(item=>{
+    const days=daysUntil(item.date);
+    const cls=days<=1?'urgent':days<=3?'warn':'info';
+    const dText=days===0?'今天！':days===1?'明天！':'還有'+days+'天';
+    const isD=!!db.deadlines.find(x=>x.id===item.id);
+    const el=document.createElement('div');el.className='alert-card '+cls;
+    el.innerHTML=`<div class="alert-body"><div class="alert-title">${isD?'🔴':'🔔'} ${esc(item.name)}</div>${item.note?`<div class="alert-sub">${esc(item.note)}</div>`:''}</div><div class="alert-days ${cls}">${dText}</div><button class="icon-btn del" onclick="delAlert(event,'${item.id}','${isD?'d':'r'}')">✕</button>`;
+    al.appendChild(el);
+  });
+
+  const goList=document.getElementById('todayGo'),waitList=document.getElementById('todayWait');
+  goList.innerHTML='';waitList.innerHTML='';
+  let anyGo=false,anyWait=false;
+  db.projects.forEach(p=>{
+    p.lanes.forEach(l=>{
+      const isGo=l.status==='go';
+      if(isGo)anyGo=true;else anyWait=true;
+      const el=document.createElement('div');el.className='todo-item'+(isGo?'':' wait');
+      el.innerHTML=`<div class="todo-proj">${esc(p.name)}</div><div style="flex:1"><div class="todo-name">${esc(l.name)}</div>${l.detail?`<div class="todo-detail">${esc(l.detail)}</div>`:''} ${!isGo&&l.waitR?`<div class="todo-wait-reason">等：${esc(l.waitR)}</div>`:''}</div><button class="todo-toggle" onclick="quickToggle('${p.id}','${l.id}')">${isGo?'→等待':'→推進'}</button>`;
+      if(isGo)goList.appendChild(el);else waitList.appendChild(el);
+    });
+  });
+  if(!anyGo)goList.innerHTML='<div class="empty">沒有可推進的任務</div>';
+  if(!anyWait)waitList.innerHTML='<div style="color:var(--muted);font-size:12px;padding:6px 0">沒有等待中的任務</div>';
+}
+
+function delAlert(e,id,type){e.stopPropagation();if(type==='d')db.deadlines=db.deadlines.filter(x=>x.id!==id);else db.reminders=db.reminders.filter(x=>x.id!==id);renderAll();}
+function quickToggle(pid,lid){const p=db.projects.find(x=>x.id===pid);const l=p.lanes.find(x=>x.id===lid);l.status=l.status==='go'?'wait':'go';p.updatedAt=new Date().toISOString();renderAll();pushAll();toast(l.status==='go'?'▶ 可推進':'⏸ 等待中');}
+
+// PROJECTS
+function renderProjects(){
+  const grid=document.getElementById('projGrid');
+  if(!db.projects.length){grid.innerHTML='<div class="empty">點右上角「新增專案」開始</div>';return;}
+  const openIds=new Set([...document.querySelectorAll('.pcard-body.open')].map(b=>b.id.replace('pb-','')));
+  grid.innerHTML='';
+  db.projects.forEach(p=>{
+    const goL=p.lanes.filter(l=>l.status==='go');
+    const waitL=p.lanes.filter(l=>l.status==='wait');
+    const days=daysUntil(p.endDate);
+    const isUrgent=days!==null&&days>=0&&days<=3;
+    const deadMeta=p.endDate?`<span class="${isUrgent?'dead':''}">${isUrgent?'⚠️ ':''}截止 ${fmtD(p.endDate)}${days!==null?(days===0?' 今天':days>0?' ('+days+'天)':' 已逾期'):''}</span>`:'';
+    const startMeta=p.startDate?`<span>開始 ${fmtD(p.startDate)}</span>`:'';
+    const peopleMeta=(p.people&&p.people.length)?`<span>👥 ${p.people.slice(0,3).join('、')}${p.people.length>3?'...':''}</span>`:'';
+    const lanesHtml=p.lanes.map(l=>{
+      const ld=l.endDate?` · ${fmtD(l.endDate)}`:'';
+      return `<div class="lane-item ${l.status}">
+        <button class="lane-sbtn" onclick="toggleLane('${p.id}','${l.id}')">${l.status==='go'?'▶ GO':'⏸'}</button>
+        <div style="flex:1">
+          <div class="lane-name">${esc(l.name)}</div>
+          ${l.detail?`<div class="lane-detail">${esc(l.detail)}</div>`:''}
+          ${l.status==='wait'&&l.waitR?`<div class="lane-wait-r">等：${esc(l.waitR)}</div>`:''}
+          ${(l.startDate||l.endDate)?`<div class="lane-dates">${l.startDate?fmtD(l.startDate):'?'} → ${l.endDate?fmtD(l.endDate):'?'}</div>`:''}
+        </div>
+        ${l.eta?`<div class="lane-eta">⏱ ${esc(l.eta)}</div>`:''}
+        <button class="icon-btn" onclick="openEditLane('${p.id}','${l.id}')">✎</button>
+        <button class="icon-btn del" onclick="delLane('${p.id}','${l.id}')">✕</button>
+      </div>`;
+    }).join('');
+
+    const card=document.createElement('div');
+    card.className=`pcard ${isUrgent?'urgent':goL.length===0&&waitL.length>0?'all-wait':''}`;
+    card.innerHTML=`
+      <div class="pcard-head" onclick="toggleCard('${p.id}')">
+        <div style="flex:1">
+          <div class="pname">${esc(p.name)}</div>
+          <div class="pmeta">${goL.length} GO · ${waitL.length} 等待${deadMeta?` · ${deadMeta}`:''}${startMeta?` · ${startMeta}`:''}${peopleMeta?` · ${peopleMeta}`:''}</div>
+        </div>
+        <div class="lane-pills">
+          ${goL.slice(0,3).map(l=>`<span class="lpill go">${esc(l.name)}</span>`).join('')}
+          ${waitL.slice(0,2).map(l=>`<span class="lpill wait">${esc(l.name)}</span>`).join('')}
+        </div>
+        <button class="icon-btn" style="margin-left:8px" onclick="openEditProj(event,'${p.id}')">✎</button>
+        <button class="icon-btn del" onclick="delProj(event,'${p.id}')">✕</button>
+      </div>
+      <div class="pcard-body ${openIds.has(p.id)?'open':''}" id="pb-${p.id}">
+        <div class="pcard-inner">
+          <div><div class="flabel">目前進度 / 下一步</div><textarea class="fld" placeholder="做到哪了？" oninput="updP('${p.id}','progress',this.value)">${esc(p.progress)}</textarea></div>
+          <div><div class="flabel">問題 / 卡住</div><textarea class="fld" placeholder="..." oninput="updP('${p.id}','issues',this.value)">${esc(p.issues)}</textarea></div>
+          ${p.note?`<div class="full"><div class="flabel">備注</div><div style="font-size:13px;color:var(--muted);line-height:1.7;padding:6px 0">${esc(p.note)}</div></div>`:''}
+          ${p.people&&p.people.length?`<div class="full"><div class="flabel">相關人物</div><div class="people-row">${p.people.map(pe=>`<span class="person-tag">${esc(pe)}</span>`).join('')}</div></div>`:''}
+          <div class="full">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+              <div class="flabel" style="margin-bottom:0">任務線</div>
+              <button class="btn btn-ink" style="font-size:10px;padding:4px 10px" onclick="openAddLane('${p.id}')">＋ 新增</button>
+            </div>
+            ${lanesHtml}
+            ${p.lanes.length===0?'<div style="color:var(--muted);font-size:12px">還沒有任務線</div>':''}
+          </div>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+function toggleCard(pid){document.getElementById('pb-'+pid)?.classList.toggle('open')}
+let _pushTimer=null;
+function updP(pid,f,v){const p=db.projects.find(x=>x.id===pid);if(!p)return;p[f]=v;saveDB();clearTimeout(_pushTimer);_pushTimer=setTimeout(pushAll,2000);}
+function toggleLane(pid,lid){const p=db.projects.find(x=>x.id===pid);const l=p.lanes.find(x=>x.id===lid);l.status=l.status==='go'?'wait':'go';renderAll();pushAll();document.getElementById('pb-'+pid)?.classList.add('open');}
+function delLane(pid,lid){if(!confirm('刪除？'))return;const p=db.projects.find(x=>x.id===pid);p.lanes=p.lanes.filter(x=>x.id!==lid);renderAll();pushAll();document.getElementById('pb-'+pid)?.classList.add('open');toast('已刪除');}
+function delProj(e,pid){e.stopPropagation();if(!confirm('確定刪除？'))return;db.projects=db.projects.filter(x=>x.id!==pid);renderAll();pushAll();toast('已刪除');}
+
+// PROJECT MODAL
+function openProjModal(){
+  editingProjId=null;tmpPeople=[];
+  document.getElementById('projModalTitle').textContent='NEW PROJECT';
+  ['pName','pNote'].forEach(i=>document.getElementById(i).value='');
+  document.getElementById('pStart').value='';document.getElementById('pEnd').value='';
+  document.getElementById('pPeopleInput').value='';
+  renderPeopleTags();
+  document.getElementById('projOverlay').classList.add('open');
+  setTimeout(()=>document.getElementById('pName').focus(),50);
+}
+function openEditProj(e,pid){
+  e.stopPropagation();
+  const p=db.projects.find(x=>x.id===pid);editingProjId=pid;
+  tmpPeople=[...(p.people||[])];
+  document.getElementById('projModalTitle').textContent='EDIT PROJECT';
+  document.getElementById('pName').value=p.name;
+  document.getElementById('pStart').value=p.startDate||'';
+  document.getElementById('pEnd').value=p.endDate||'';
+  document.getElementById('pNote').value=p.note||'';
+  document.getElementById('pPeopleInput').value='';
+  renderPeopleTags();
+  document.getElementById('projOverlay').classList.add('open');
+}
+function addPersonFromInput(e){
+  if(e.key!=='Enter')return;e.preventDefault();
+  const inp=document.getElementById('pPeopleInput');
+  const val=inp.value.trim();if(!val)return;
+  if(!tmpPeople.includes(val))tmpPeople.push(val);
+  inp.value='';renderPeopleTags();
+}
+function renderPeopleTags(){
+  const wrap=document.getElementById('pPeopleTags');
+  wrap.innerHTML=tmpPeople.map((pe,i)=>`<span class="person-tag">${esc(pe)}<button onclick="tmpPeople.splice(${i},1);renderPeopleTags()">✕</button></span>`).join('');
+}
+function saveProject(){
+  const name=document.getElementById('pName').value.trim();if(!name){alert('請輸入名稱');return;}
+  const data={name,startDate:document.getElementById('pStart').value,endDate:document.getElementById('pEnd').value,note:document.getElementById('pNote').value.trim(),people:[...tmpPeople]};
+  if(editingProjId){
+    const p=db.projects.find(x=>x.id===editingProjId);
+    Object.assign(p,data);
+  }else{
+    db.projects.unshift({id:uid(),...data,progress:'',issues:'',lanes:[],updatedAt:new Date().toISOString()});
+  }
+  renderAll();pushAll();closeO('projOverlay');toast(editingProjId?'已更新':'專案已建立');
+  if(!editingProjId)setTimeout(()=>{switchTab('projects');document.getElementById('pb-'+db.projects[0].id)?.classList.add('open')},80);
+}
+
+// LANE MODAL
+function selLS(s){
+  laneStatusSel=s;
+  document.getElementById('lsGo').className='sr-btn go'+(s==='go'?' sel':'');
+  document.getElementById('lsWait').className='sr-btn wait'+(s==='wait'?' sel':'');
+  document.getElementById('lWaitGroup').style.display=s==='wait'?'block':'none';
+}
+function openAddLane(pid){
+  addingLanePid=pid;editingLaneInfo=null;
+  document.getElementById('laneModalTitle').textContent='ADD LANE';
+  ['lName','lDetail','lWaitR','lEta'].forEach(i=>document.getElementById(i).value='');
+  document.getElementById('lStart').value='';document.getElementById('lEnd').value='';
+  selLS('go');document.getElementById('laneOverlay').classList.add('open');
+  setTimeout(()=>document.getElementById('lName').focus(),50);
+}
+function openEditLane(pid,lid){
+  const p=db.projects.find(x=>x.id===pid);const l=p.lanes.find(x=>x.id===lid);
+  editingLaneInfo={pid,lid};addingLanePid=null;
+  document.getElementById('laneModalTitle').textContent='EDIT LANE';
+  document.getElementById('lName').value=l.name;
+  document.getElementById('lDetail').value=l.detail||'';
+  document.getElementById('lWaitR').value=l.waitR||'';
+  document.getElementById('lEta').value=l.eta||'';
+  document.getElementById('lStart').value=l.startDate||'';
+  document.getElementById('lEnd').value=l.endDate||'';
+  selLS(l.status);document.getElementById('laneOverlay').classList.add('open');
+}
+function saveLane(){
+  const name=document.getElementById('lName').value.trim();if(!name){alert('請輸入名稱');return;}
+  const data={name,status:laneStatusSel,detail:document.getElementById('lDetail').value.trim(),waitR:document.getElementById('lWaitR').value.trim(),eta:document.getElementById('lEta').value.trim(),startDate:document.getElementById('lStart').value,endDate:document.getElementById('lEnd').value};
+  if(editingLaneInfo){
+    const p=db.projects.find(x=>x.id===editingLaneInfo.pid);
+    Object.assign(p.lanes.find(x=>x.id===editingLaneInfo.lid),data);
+    renderAll();document.getElementById('pb-'+editingLaneInfo.pid)?.classList.add('open');
+  }else{
+    const p=db.projects.find(x=>x.id===addingLanePid);
+    p.lanes.push({id:uid(),...data});
+    renderAll();document.getElementById('pb-'+addingLanePid)?.classList.add('open');
+  }
+  closeO('laneOverlay');pushAll();toast('已儲存');
+}
+
+// GANTT
+function renderGantt(){
+  const chart=document.getElementById('ganttChart');chart.innerHTML='';
+  // Collect all dated items
+  const allDates=[];
+  db.projects.forEach(p=>{
+    if(p.startDate)allDates.push(new Date(p.startDate));
+    if(p.endDate)allDates.push(new Date(p.endDate));
+    p.lanes.forEach(l=>{if(l.startDate)allDates.push(new Date(l.startDate));if(l.endDate)allDates.push(new Date(l.endDate));});
+  });
+  if(!allDates.length){chart.innerHTML='<div class="empty">設定專案日期後即可在這裡看時間軸</div>';return;}
+
+  const now=new Date();now.setHours(0,0,0,0);
+  let minD=new Date(Math.min(...allDates));let maxD=new Date(Math.max(...allDates));
+  // Extend range a bit
+  minD.setDate(minD.getDate()-5);maxD.setDate(maxD.getDate()+10);
+  const totalDays=Math.round((maxD-minD)/86400000);
+
+  function pct(d){if(!d)return null;const dt=new Date(d);return Math.max(0,Math.min(100,Math.round((dt-minD)/86400000/totalDays*100)));}
+
+  // Header: months
+  const header=document.createElement('div');header.className='gantt-header';
+  const labelSpacer=document.createElement('div');labelSpacer.className='gantt-label';header.appendChild(labelSpacer);
+  const monthsWrap=document.createElement('div');monthsWrap.className='gantt-months';
+  // Generate month markers
+  let cur=new Date(minD);cur.setDate(1);
+  while(cur<=maxD){
+    const nextM=new Date(cur);nextM.setMonth(nextM.getMonth()+1);
+    const startPct=pct(cur.toISOString().split('T')[0]);
+    const endPct=pct(nextM.toISOString().split('T')[0]);
+    const w=Math.max(0,endPct-startPct);
+    const m=document.createElement('div');m.className='gantt-month';
+    m.style.width=w+'%';
+    m.textContent=(cur.getMonth()+1)+'月';
+    monthsWrap.appendChild(m);
+    cur=nextM;
+  }
+  header.appendChild(monthsWrap);chart.appendChild(header);
+
+  // Today marker pct
+  const todayPct=pct(now.toISOString().split('T')[0]);
+
+  // Rows
+  db.projects.forEach(p=>{
+    const hasDate=p.startDate||p.endDate;
+    // Project row
+    const prow=document.createElement('div');prow.className='gantt-row';
+    const plabel=document.createElement('div');plabel.className='gantt-row-label';
+    plabel.textContent=p.name;plabel.title=p.name;
+    const ptrack=document.createElement('div');ptrack.className='gantt-track';
+
+    // Today line
+    const todayLine=document.createElement('div');todayLine.className='gantt-today';todayLine.style.left=todayPct+'%';ptrack.appendChild(todayLine);
+
+    if(hasDate){
+      const s=pct(p.startDate)||0,e=pct(p.endDate)||100;
+      const bar=document.createElement('div');
+      const days=daysUntil(p.endDate);
+      bar.className='gantt-bar '+(days!==null&&days<0?'done-bar':days!==null&&days<=3?'urgent':'proj');
+      bar.style.left=s+'%';bar.style.width=Math.max(1,e-s)+'%';
+      bar.title=p.name+(p.startDate?' '+fmtD(p.startDate):'')+(p.endDate?' → '+fmtD(p.endDate):'');
+      ptrack.appendChild(bar);
+    }
+    prow.appendChild(plabel);prow.appendChild(ptrack);chart.appendChild(prow);
+
+    // Lane rows
+    p.lanes.filter(l=>l.startDate||l.endDate).forEach(l=>{
+      const lrow=document.createElement('div');lrow.className='gantt-row';
+      const llabel=document.createElement('div');llabel.className='gantt-row-label muted';
+      llabel.textContent='  └ '+l.name;llabel.title=l.name;
+      const ltrack=document.createElement('div');ltrack.className='gantt-track';
+      const tl2=document.createElement('div');tl2.className='gantt-today';tl2.style.left=todayPct+'%';ltrack.appendChild(tl2);
+      const s=pct(l.startDate)||0,e=pct(l.endDate)||100;
+      const bar=document.createElement('div');
+      bar.className='gantt-bar '+(l.status==='go'?'proj':'done-bar');
+      bar.style.left=s+'%';bar.style.width=Math.max(1,e-s)+'%';
+      bar.title=l.name;
+      ltrack.appendChild(bar);
+      lrow.appendChild(llabel);lrow.appendChild(ltrack);chart.appendChild(lrow);
+    });
+  });
+}
+
+// SCHEDULE
+function getWeekDates(off=0){
+  const now=new Date(),day=now.getDay(),mon=new Date(now);
+  mon.setDate(now.getDate()-(day===0?6:day-1)+off*7);
+  return Array.from({length:7},(_,i)=>{const d=new Date(mon);d.setDate(mon.getDate()+i);return d});
+}
+function renderSchedule(){
+  const days=getWeekDates(weekOff);
+  const dn=['MON','TUE','WED','THU','FRI','SAT','SUN'];
+  const todayStr=new Date().toDateString();
+  document.getElementById('weekLbl').textContent=(days[0].getMonth()+1)+'/'+days[0].getDate()+' – '+(days[6].getMonth()+1)+'/'+days[6].getDate();
+  const grid=document.getElementById('weekGrid');grid.innerHTML='';
+  days.forEach((d,i)=>{
+    const ds=d.toISOString().split('T')[0];
+    const deads=db.deadlines.filter(x=>x.date===ds);
+    const rems=db.reminders.filter(x=>x.date===ds);
+    const autoDay=getAutoAlertItems().filter(x=>x.date===ds);
+    const projEnds=db.projects.filter(x=>x.endDate===ds);
+    const projStarts=db.projects.filter(x=>x.startDate===ds);
+    const laneEnds=db.projects.flatMap(p=>p.lanes.filter(l=>l.endDate===ds).map(l=>({...l,projName:p.name})));
+    const col=document.createElement('div');
+    col.innerHTML=`<div class="day-hdr">${dn[i]}</div><div class="day-num${d.toDateString()===todayStr?' today':''}">${d.getDate()}</div><div class="day-events">`+
+      deads.map(x=>`<div class="dev deadline" title="${esc(x.name)}">🔴${esc(x.name.slice(0,4))}</div>`).join('')+
+      rems.map(x=>{
+      const et=x.etype||'reminder';
+      const icons={reminder:'🔔',festival:'🎉',vendor:'🏭',deadline:'📌',social:'📰'};
+      const cls={reminder:'reminder',festival:'festival',vendor:'vendor',deadline:'deadline',social:'social'};
+      return `<div class="dev ${cls[et]||'reminder'}" title="${esc(x.name)}">${icons[et]||'🔔'}${esc(x.name.slice(0,4))}</div>`;
+    }).join('')+
+      projEnds.map(x=>`<div class="dev deadline" title="${esc(x.name)} 截止">📁${esc(x.name.slice(0,4))}</div>`).join('')+
+      projStarts.map(x=>`<div class="dev start" title="${esc(x.name)} 開始">▶${esc(x.name.slice(0,4))}</div>`).join('')+
+      laneEnds.map(x=>`<div class="dev proj" title="${esc(x.projName)}: ${esc(x.name)}">⬡${esc(x.name.slice(0,4))}</div>`).join('')+
+      autoDay.map(x=>{
+        const icon=x.itype==='festival'?'🎉':'🏭';
+        return `<div class="dev ${x.itype}" title="${esc(x.name)}｜${esc(x.note)}">${icon}${esc(x.name.replace(/^🎉 |^🏭 /,'').slice(0,3))}</div>`;
+      }).join('')+
+      '</div>';
+    grid.appendChild(col);
+  });
+
+  const now=new Date();now.setHours(0,0,0,0);
+  const autoItems=getAutoAlertItems().filter(d=>{const days=daysUntil(d.date);return days!==null&&days>=0&&days<=30;});
+  const allItems=[
+    ...db.deadlines.map(d=>({...d,itype:'deadline'})),
+    ...db.reminders.map(d=>({...d,itype:d.etype||'reminder'})),
+    ...db.projects.filter(p=>p.endDate).map(p=>({id:'pe_'+p.id,name:p.name+' 截止',date:p.endDate,note:p.progress||'',itype:'proj'})),
+    ...db.projects.filter(p=>p.startDate).map(p=>({id:'ps_'+p.id,name:p.name+' 開始',date:p.startDate,note:'',itype:'start'})),
+    ...autoItems,
+  ].filter(d=>{const days=daysUntil(d.date);return days!==null&&days>=0&&days<=30;})
+   .sort((a,b)=>new Date(a.date)-new Date(b.date));
+
+  const ul=document.getElementById('upcomingList');
+  if(!allItems.length){ul.innerHTML='<div class="empty">30天內沒有事項</div>';return;}
+  ul.innerHTML='';
+  allItems.forEach(item=>{
+    const days=daysUntil(item.date);
+    const dText=days===0?'今天':days===1?'明天':days+'天後';
+    const urgCls=days<=1?'urgent':days<=3?'warn':'';
+    const el=document.createElement('div');el.className='up-item';
+    const canDel=!item.isAuto&&item.itype!=='proj'&&item.itype!=='start';
+    el.innerHTML=`<div class="up-date ${urgCls}">${fmtD(item.date)}<br><span style="font-size:10px">${dText}</span></div><div style="flex:1"><div class="up-name">${esc(item.name)}</div>${item.note?`<div class="up-note">${esc(item.note)}</div>`:''}</div><span class="up-badge ${item.itype}">${{deadline:'截止',reminder:'提醒',festival:'🎉自動',vendor:'🏭自動',deadline:'截止日',social:'社群/活動',proj:'專案',start:'開始'}[item.itype]}</span>${canDel?`<button class="icon-btn del" style="margin-left:6px" onclick="delSched('${item.id}','${item.itype}')">✕</button>`:''}`;
+    ul.appendChild(el);
+  });
+}
+
+function delSched(id,type){
+  if(type==='deadline')db.deadlines=db.deadlines.filter(x=>x.id!==id);
+  else db.reminders=db.reminders.filter(x=>x.id!==id);
+  saveDB();pushAll();renderSchedule();renderToday();toast('已刪除');
+}
+
+function openDeadlineModal(){
+  document.getElementById('dlName').value='';document.getElementById('dlDate').value=new Date().toISOString().split('T')[0];document.getElementById('dlNote').value='';
+  const sel=document.getElementById('dlProj');sel.innerHTML='<option value="">無</option>'+db.projects.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('');
+  document.getElementById('deadlineOverlay').classList.add('open');setTimeout(()=>document.getElementById('dlName').focus(),50);
+}
+function saveDeadline(){
+  const name=document.getElementById('dlName').value.trim(),date=document.getElementById('dlDate').value;
+  if(!name||!date){alert('請填寫名稱和日期');return;}
+  db.deadlines.push({id:uid(),name,date,note:document.getElementById('dlNote').value.trim(),projId:document.getElementById('dlProj').value});
+  saveDB();pushAll();renderSchedule();renderToday();closeO('deadlineOverlay');toast('已新增');
+}
+function openReminderModal(){
+  document.getElementById('rmName').value='';document.getElementById('rmDate').value=new Date().toISOString().split('T')[0];document.getElementById('rmNote').value='';
+  selEtype('reminder');
+  document.getElementById('reminderOverlay').classList.add('open');setTimeout(()=>document.getElementById('rmName').focus(),50);
+}
+function saveReminder(){
+  const name=document.getElementById('rmName').value.trim(),date=document.getElementById('rmDate').value;
+  if(!name||!date){alert('請填寫內容和日期');return;}
+  db.reminders.push({id:uid(),name,date,note:document.getElementById('rmNote').value.trim(),etype:etypeSel});
+  saveDB();pushAll();renderSchedule();renderToday();closeO('reminderOverlay');toast('已新增');
+}
+
+// MEETING
+function openMeeting(){
+  document.getElementById('mDate').textContent=new Date().toLocaleDateString('zh-TW',{year:'numeric',month:'long',day:'numeric',weekday:'long'});
+  meetingSelected=new Set(db.projects.map(p=>p.id)); // default: all selected
+  renderMeetingSelect();
+  document.getElementById('mOverlay').classList.add('open');
+  document.getElementById('meetingBtn').classList.add('active');
+  document.getElementById('meetingBtn').textContent='✕ 結束';
+}
+function closeMeeting(){
+  document.getElementById('mOverlay').classList.remove('open');
+  document.getElementById('meetingBtn').classList.remove('active');
+  document.getElementById('meetingBtn').textContent='⚑ 開會';
+}
+function renderMeetingSelect(){
+  const sel=document.getElementById('mProjSelect');sel.innerHTML='';
+  db.projects.forEach(p=>{
+    const chip=document.createElement('div');chip.className='m-proj-chip'+(meetingSelected.has(p.id)?' sel':'');
+    chip.innerHTML=`<div class="chk">${meetingSelected.has(p.id)?'✓':''}</div>${esc(p.name)}`;
+    chip.onclick=()=>{
+      if(meetingSelected.has(p.id))meetingSelected.delete(p.id);else meetingSelected.add(p.id);
+      renderMeetingSelect();renderMeetingContent();
+    };
+    sel.appendChild(chip);
+  });
+  renderMeetingContent();
+}
+function renderMeetingContent(){
+  const content=document.getElementById('mContent');content.innerHTML='';
+  const selected=db.projects.filter(p=>meetingSelected.has(p.id));
+  if(!selected.length){content.innerHTML='<div style="color:rgba(255,255,255,.2);text-align:center;padding:32px">請選擇要報告的專案</div>';return;}
+  selected.forEach(p=>{
+    const days=daysUntil(p.endDate);
+    const deadText=p.endDate?(days<0?`逾期${Math.abs(days)}天`:days===0?'今天截止':days<=3?`⚠️ 還有${days}天`:`截止 ${fmtD(p.endDate)}`):'';
+    const block=document.createElement('div');block.className='m-proj-block';
+    block.innerHTML=`
+      <div class="m-proj-name">
+        ${esc(p.name)}
+        ${deadText?`<span class="m-proj-dead" style="color:${days!==null&&days<=3?'#f09090':'rgba(255,255,255,.3)'}">${deadText}</span>`:''}
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(255,255,255,.2);margin-left:auto">${p.lanes.filter(l=>l.status==='go').length} GO · ${p.lanes.filter(l=>l.status==='wait').length} 等待</span>
+      </div>
+      ${p.progress?`<div class="m-proj-progress">${esc(p.progress)}</div>`:''}
+      ${p.lanes.map(l=>`<div class="m-lane">
+        <span class="m-lane-st ${l.status}">${l.status==='go'?'▶ GO':'⏸'}</span>
+        <div><div class="m-lane-name">${esc(l.name)}</div>${l.detail?`<div class="m-lane-detail">${esc(l.detail)}</div>`:''}${l.waitR?`<div class="m-lane-wait">等：${esc(l.waitR)}</div>`:''}</div>
+        ${l.eta?`<div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(255,255,255,.2);margin-left:auto;white-space:nowrap">⏱ ${esc(l.eta)}</div>`:''}
+      </div>`).join('')}
+      ${p.people&&p.people.length?`<div class="m-people">${p.people.map(pe=>`<span class="m-person">👤 ${esc(pe)}</span>`).join('')}</div>`:''}`;
+    content.appendChild(block);
+  });
+}
+
+['projOverlay','laneOverlay','deadlineOverlay','reminderOverlay','annualOverlay'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(el)el.addEventListener('click',e=>{if(e.target.id===id)closeO(id)});
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    const mo=document.getElementById('mOverlay');
+    if(mo&&mo.classList.contains('open')){closeMeeting();return;}
+    ['projOverlay','laneOverlay','deadlineOverlay','reminderOverlay','annualOverlay'].forEach(id=>{
+      const el=document.getElementById(id);if(el)closeO(id);
+    });
+  }
+});
+
+// ── ANNUAL ──
+let annualType='festival';
+let editingAnnualId=null;
+
+function getNextDate(dateStr,repeat){
+  const days=daysUntil(dateStr);
+  if(!repeat||days>=0) return dateStr;
+  const d=new Date(dateStr);
+  d.setFullYear(d.getFullYear()+1);
+  return d.toISOString().split('T')[0];
+}
+
+// Auto-reminders config
+const FEST_REMINDERS=[
+  {days:21,label:'21天前',msg:'開始構思方向'},
+  {days:16,label:'16天前',msg:'開始設計'},
+  {days:7, label:'7天前', msg:'完稿交老闆確認'},
+  {days:0, label:'確認後', msg:'設定賀圖發放排程'},
+];
+const BOOTH_REMINDERS=[
+  // monthly announcement is handled separately (1st of each month)
+  {days:17,label:'17天前',msg:'詢問主管：是否需要DM等物料'},
+  {days:12,label:'12天前',msg:'上網公告活動'},
+  {days:3, label:'3天前', msg:'最終提醒確認'},
+];
+
+function getAutoReminders(dateStr,type){
+  const reminders=type==='festival'?FEST_REMINDERS:BOOTH_REMINDERS;
+  const targetDate=new Date(dateStr);targetDate.setHours(0,0,0,0);
+  return reminders.map(r=>{
+    const remDate=new Date(targetDate);remDate.setDate(remDate.getDate()-r.days);
+    const daysToRem=Math.round((remDate-new Date().setHours(0,0,0,0))/86400000);
+    return {...r,remDate:remDate.toISOString().split('T')[0],daysToRem};
+  });
+}
+
+function renderAnnual(){
+  renderFestivalList();renderBoothList();
+}
+
+function renderFestivalList(){
+  const list=document.getElementById('festivalList');
+  if(!list)return;
+  if(!db.festivals||!db.festivals.length){list.innerHTML='<div class="empty">還沒有節慶，點右上角新增</div>';return;}
+  list.innerHTML='';
+  [...db.festivals]
+    .map(f=>({...f,_nextDate:getNextDate(f.date,f.repeat)}))
+    .sort((a,b)=>new Date(a._nextDate)-new Date(b._nextDate))
+    .forEach(f=>{
+      const days=daysUntil(f._nextDate);
+      const urgCls=days<0?'past':days<=7?'urgent':days<=14?'soon':'upcoming';
+      const dText=days<0?`已過${Math.abs(days)}天`:days===0?'今天！':days<=3?`⚠️ 還有${days}天`:days<=14?`還有${days}天`:`${days}天後`;
+      const dCls=days<0?'past':days<=3?'urgent':days<=14?'soon':'ok';
+      const reminders=getAutoReminders(f._nextDate,'festival');
+      const daysToEvent=days;
+      const el=document.createElement('div');el.className='annual-item '+urgCls;
+      el.innerHTML=`
+        <div class="ai-date">${fmtD(f._nextDate)}</div>
+        <div style="flex:1">
+          <div class="ai-name">🎉 ${esc(f.name)}${f.repeat?'<span style="font-size:11px;color:var(--dim);margin-left:6px">每年</span>':''}</div>
+          ${f.note?`<div class="ai-note">${esc(f.note)}</div>`:''}
+          <div class="ai-reminders">
+            ${reminders.map(r=>{
+              const cls=r.days===0?(daysToEvent<=0?'active':''):r.daysToRem<0?'done':r.daysToRem<=1?'active':'';
+              return `<span class="ai-reminder-chip ${cls}" title="${r.msg}">${r.label}：${r.msg}</span>`;
+            }).join('')}
+          </div>
+        </div>
+        <div class="ai-days ${dCls}">${dText}</div>
+        <button class="icon-btn" onclick="openEditAnnual(event,'festival','${f.id}')">✎</button>
+        <button class="icon-btn del" onclick="delAnnual('festival','${f.id}')">✕</button>`;
+      list.appendChild(el);
+    });
+}
+
+function renderBoothList(){
+  const list=document.getElementById('boothList');
+  if(!list)return;
+  if(!db.booths||!db.booths.length){list.innerHTML='<div class="empty">還沒有擺攤活動，點右上角新增</div>';return;}
+  list.innerHTML='';
+  [...db.booths]
+    .map(b=>({...b,_nextDate:getNextDate(b.date,b.repeat)}))
+    .sort((a,b)=>new Date(a._nextDate)-new Date(b._nextDate))
+    .forEach(b=>{
+      const days=daysUntil(b._nextDate);
+      const urgCls=days<0?'past':days<=7?'urgent':days<=14?'soon':'upcoming';
+      const dText=days<0?`已過${Math.abs(days)}天`:days===0?'今天！':days<=3?`⚠️ 還有${days}天`:days<=14?`還有${days}天`:`${days}天後`;
+      const dCls=days<0?'past':days<=3?'urgent':days<=14?'soon':'ok';
+      const reminders=getAutoReminders(b._nextDate,'booth');
+      const el=document.createElement('div');el.className='annual-item '+urgCls;
+      el.innerHTML=`
+        <div class="ai-date">${fmtD(b._nextDate)}</div>
+        <div style="flex:1">
+          <div class="ai-name">🏭 ${esc(b.name)}${b.repeat?'<span style="font-size:11px;color:var(--dim);margin-left:6px">每年</span>':''}</div>
+          ${b.note?`<div class="ai-note">${esc(b.note)}</div>`:''}
+          <div class="ai-reminders">
+            ${reminders.map(r=>{
+              const cls=r.daysToRem<0?'done':r.daysToRem<=1?'active':'';
+              return `<span class="ai-reminder-chip ${cls}" title="${r.msg}">${r.label}：${r.msg}</span>`;
+            }).join('')}
+          </div>
+        </div>
+        <div class="ai-days ${dCls}">${dText}</div>
+        <button class="icon-btn" onclick="openEditAnnual(event,'booth','${b.id}')">✎</button>
+        <button class="icon-btn del" onclick="delAnnual('booth','${b.id}')">✕</button>`;
+      list.appendChild(el);
+    });
+}
+
+function openAnnualModal(type){
+  annualType=type;editingAnnualId=null;
+  document.getElementById('annualModalTitle').textContent=type==='festival'?'NEW FESTIVAL':'NEW BOOTH';
+  ['anName','anNote'].forEach(i=>document.getElementById(i).value='');
+  document.getElementById('anDate').value='';
+  document.getElementById('anRepeat').value='1';
+  document.getElementById('annualOverlay').classList.add('open');
+  setTimeout(()=>document.getElementById('anName').focus(),50);
+}
+function openEditAnnual(e,type,id){
+  e.stopPropagation();
+  annualType=type;editingAnnualId=id;
+  const arr=type==='festival'?db.festivals:db.booths;
+  const item=arr.find(x=>x.id===id);
+  document.getElementById('annualModalTitle').textContent=type==='festival'?'EDIT FESTIVAL':'EDIT BOOTH';
+  document.getElementById('anName').value=item.name;
+  document.getElementById('anDate').value=item.date;
+  document.getElementById('anRepeat').value=item.repeat?'1':'0';
+  document.getElementById('anNote').value=item.note||'';
+  document.getElementById('annualOverlay').classList.add('open');
+}
+function saveAnnual(){
+  const name=document.getElementById('anName').value.trim(),date=document.getElementById('anDate').value;
+  if(!name||!date){alert('請填寫名稱和日期');return;}
+  const data={name,date,repeat:document.getElementById('anRepeat').value==='1',note:document.getElementById('anNote').value.trim()};
+  const arr=annualType==='festival'?db.festivals:db.booths;
+  if(!db.festivals)db.festivals=[];if(!db.booths)db.booths=[];
+  if(editingAnnualId){Object.assign(arr.find(x=>x.id===editingAnnualId),data);}
+  else{(annualType==='festival'?db.festivals:db.booths).push({id:uid(),...data});}
+  saveDB();pushAll();if(document.getElementById('festivalList'))renderAnnual();renderToday();closeO('annualOverlay');toast('已儲存');
+}
+function delAnnual(type,id){
+  if(!confirm('刪除？'))return;
+  if(type==='festival')db.festivals=db.festivals.filter(x=>x.id!==id);
+  else db.booths=db.booths.filter(x=>x.id!==id);
+  saveDB();pushAll();if(document.getElementById('festivalList'))renderAnnual();renderToday();toast('已刪除');
+}
+
+// Generate auto-alert items for SCHEDULE tab only
+function getAutoAlertItems(){
+  const items=[];
+  const now=new Date();now.setHours(0,0,0,0);
+
+  // Festival reminders
+  (db.festivals||[]).forEach(item=>{
+    const nextDate=getNextDate(item.date,item.repeat);
+    const targetDate=new Date(nextDate);targetDate.setHours(0,0,0,0);
+    FEST_REMINDERS.forEach(r=>{
+      let remDate;
+      if(r.days===0){
+        // "after confirmation" = day of event
+        remDate=new Date(targetDate);
+      } else {
+        remDate=new Date(targetDate);remDate.setDate(remDate.getDate()-r.days);
+      }
+      const daysToRem=Math.round((remDate-now)/86400000);
+      if(daysToRem>=-1&&daysToRem<=60){
+        items.push({
+          id:'auto_fest_'+item.id+'_'+r.days,
+          name:`🎉 ${item.name}`,
+          note:r.msg,
+          date:remDate.toISOString().split('T')[0],
+          daysToRem,itype:'festival',isAuto:true,
+        });
+      }
+    });
+  });
+
+  // Booth reminders
+  (db.booths||[]).forEach(item=>{
+    const nextDate=getNextDate(item.date,item.repeat);
+    const targetDate=new Date(nextDate);targetDate.setHours(0,0,0,0);
+
+    // Monthly announcement: 23rd of PREVIOUS month → announce next month's booth
+    const eventMonth=targetDate.getMonth();
+    const eventYear=targetDate.getFullYear();
+    // 23rd of the month BEFORE the event
+    const announceDate=new Date(eventYear,eventMonth-1,23);
+    const daysToAnnounce=Math.round((announceDate-now)/86400000);
+    if(daysToAnnounce>=-1&&daysToAnnounce<=60){
+      items.push({
+        id:'auto_booth_monthly_'+item.id,
+        name:`🏭 ${item.name}`,
+        note:`公告下個月擺攤活動（${(eventMonth+1)}月）`,
+        date:announceDate.toISOString().split('T')[0],
+        daysToRem:daysToAnnounce,itype:'vendor',isAuto:true,
+      });
+    }
+
+    // Standard booth reminders
+    BOOTH_REMINDERS.forEach(r=>{
+      const remDate=new Date(targetDate);remDate.setDate(remDate.getDate()-r.days);
+      const daysToRem=Math.round((remDate-now)/86400000);
+      if(daysToRem>=-1&&daysToRem<=60){
+        items.push({
+          id:'auto_booth_'+item.id+'_'+r.days,
+          name:`🏭 ${item.name}`,
+          note:r.msg,
+          date:remDate.toISOString().split('T')[0],
+          daysToRem,itype:'vendor',isAuto:true,
+        });
+      }
+    });
+  });
+
+  return items.sort((a,b)=>new Date(a.date)-new Date(b.date));
+}
+
+// ── SHEETS SYNC ──
+const API_URL='https://script.google.com/macros/s/AKfycbwZCrknnoHUhfXs1Xm1VOjseMfqHAB2yT48dbLBW0LQk3Ptf8hueWZOsXplqXZVmRpB/exec';
+
+function setSyncDot(state){
+  const d=document.getElementById('syncDot');if(!d)return;
+  const colors={ok:'#6ee09a',loading:'#c07a1a',err:'#c04040',idle:'#c0beb8'};
+  d.style.background=colors[state]||colors.idle;
+  const labels={ok:'✓ 已同步（點擊重新整理）',loading:'同步中...',err:'同步失敗（點擊重試）',idle:'未同步'};
+  d.title=labels[state]||'';
+  const btn=document.getElementById('syncBtn');
+  if(btn){btn.style.opacity=state==='loading'?'1':'.4';btn.textContent=state==='loading'?'..':'↻';}
+  console.log('[SYNC]',state,new Date().toLocaleTimeString());
+}
+
+// JSONP helper - bypasses CORS for Apps Script
+let _jsonpCount=0;
+function jsonp(url){
+  return new Promise((resolve,reject)=>{
+    const cb='_jsonpCb'+(++_jsonpCount);
+    const script=document.createElement('script');
+    script.type='text/javascript';
+    const timer=setTimeout(()=>{
+      cleanup();reject(new Error('timeout after 20s'));
+    },20000);
+    function cleanup(){
+      try{delete window[cb];}catch(e){}
+      try{if(script.parentNode)script.parentNode.removeChild(script);}catch(e){}
+      clearTimeout(timer);
+    }
+    window[cb]=function(data){cleanup();resolve(data);};
+    script.addEventListener('error',function(e){
+      cleanup();
+      reject(new Error('script load error - check Apps Script is deployed as "anyone"'));
+    });
+    const sep=url.includes('?')?'&':'?';
+    script.src=url+sep+'callback='+cb+'&t='+Date.now();
+    document.head.appendChild(script);
+  });
+}
+
+async function callAPI(action,data){
+  let url=API_URL+'?action='+action;
+  if(data!==undefined)url+='&data='+encodeURIComponent(JSON.stringify(data));
+  return jsonp(url);
+}
+
+async function pushAll(){
+  setSyncDot('loading');
+  try{
+    // Push one at a time (JSONP can't parallel)
+    await callAPI('saveBlob',{key:'projects',val:db.projects});
+    await callAPI('saveBlob',{key:'deadlines',val:db.deadlines});
+    await callAPI('saveBlob',{key:'reminders',val:db.reminders});
+    await callAPI('saveBlob',{key:'festivals',val:db.festivals||[]});
+    await callAPI('saveBlob',{key:'booths',val:db.booths||[]});
+    setSyncDot('ok');
+  }catch(e){setSyncDot('err');console.warn('sync error',e);}
+}
+
+async function pullAll(){
+  setSyncDot('loading');
+  try{
+    const result=await callAPI('getAll');
+    if(result.error)throw new Error(result.error);
+    if(result.projects!=null)db.projects=result.projects;
+    if(result.deadlines!=null)db.deadlines=result.deadlines;
+    if(result.reminders!=null)db.reminders=result.reminders;
+    if(result.festivals!=null)db.festivals=result.festivals;
+    if(result.booths!=null)db.booths=result.booths;
+    saveDB();renderAll();
+    if(document.getElementById('festivalList'))renderAnnual();
+    setSyncDot('ok');
+    toast('✓ 已從雲端載入');
+  }catch(e){setSyncDot('err');toast('同步失敗，使用本機資料');console.warn(e);}
+}
+
+// Auto push after every save
+const _origSaveDB=saveDB;
+// Patch all data-mutating calls to also push
+function saveAndPush(){saveDB();pushAll();}
+
+// Init: pull from Sheets on load
+renderAll();
+pullAll();
+// Auto-sync every 90 seconds
+setInterval(pullAll,90000);
+</script>
+</body>
+</html>
