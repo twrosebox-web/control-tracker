@@ -311,9 +311,80 @@ nav::-webkit-scrollbar{display:none}
 .backup-banner button:hover{background:rgba(255,255,255,.15)}
 .backup-banner button.primary{background:#fff;color:#c07a1a;border-color:#fff}
 
+
+/* BOSS TRACKER */
+.boss-bar{display:flex;align-items:center;gap:10px;background:var(--s1);border:1px solid var(--border);padding:8px 14px;margin-bottom:12px;flex-wrap:wrap}
+.boss-label{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);flex-shrink:0}
+.boss-status-btns{display:flex;gap:5px;flex-wrap:wrap;flex:1}
+.boss-btn{font-family:'IBM Plex Mono',monospace;font-size:11px;padding:3px 10px;border:1px solid var(--border);background:none;color:var(--muted);cursor:pointer;transition:all .15s;white-space:nowrap}
+.boss-btn:hover{border-color:var(--amber);color:var(--amber)}
+.boss-btn.active.in{border-color:var(--green);color:var(--green);background:var(--green-bg)}
+.boss-btn.active.out{border-color:var(--dim);color:var(--text);background:var(--s3)}
+.boss-btn.active.meeting{border-color:var(--blue);color:var(--blue);background:var(--blue-bg)}
+.boss-btn.active.trip{border-color:var(--purple);color:var(--purple);background:var(--purple-bg)}
+.boss-btn.active.remote{border-color:var(--teal);color:var(--teal);background:var(--teal-bg)}
+.boss-btn.active.unknown{border-color:var(--amber);color:var(--amber);background:var(--amber-bg)}
+.boss-note{font-size:12px;color:var(--muted);flex-basis:100%;margin-top:2px;font-style:italic}
+
 .toast{position:fixed;bottom:16px;right:16px;background:var(--ink);color:#fff;font-family:'IBM Plex Mono',monospace;font-size:13px;padding:8px 14px;z-index:500;opacity:0;transition:opacity .2s;pointer-events:none}
 .toast.show{opacity:1}
 .empty{text-align:center;padding:32px;color:var(--muted);font-size:15px}
+
+/* ══ MOBILE ══ */
+@media(max-width:700px){
+  nav{flex-wrap:wrap;height:auto;padding:0;gap:0}
+  .logo{padding:10px 12px;width:100%;border-bottom:1px solid rgba(255,255,255,.08);font-size:14px}
+  .ntab{font-size:12px;padding:0 10px;height:40px;letter-spacing:0;flex:1;min-width:0;border-bottom:2px solid transparent}
+  .nav-right{order:99;width:100%;padding:4px 10px;border-top:1px solid rgba(255,255,255,.08);display:flex;gap:8px;align-items:center;justify-content:flex-end;flex-wrap:wrap}
+  .meeting-btn{font-size:11px;padding:3px 8px}
+  #syncBtn{font-size:10px;padding:2px 6px}
+  .main{padding:12px 10px 80px}
+  .today-hero{padding:12px 12px;gap:12px}
+  .hdate{font-size:22px!important}
+  .hweek{font-size:12px!important}
+  .hstat-n{font-size:20px!important}
+  .hstat-l{font-size:11px!important}
+  .boss-bar{padding:6px 10px;gap:6px}
+  .boss-status-btns{gap:4px}
+  .boss-btn{font-size:11px;padding:3px 8px}
+  .boss-date-row{flex-wrap:wrap}
+  .alert-card{padding:8px 10px;gap:8px}
+  .alert-title{font-size:13px}
+  .todo-item{padding:8px 10px;gap:8px}
+  .todo-name{font-size:13px}
+  .pcard-head{padding:10px 12px}
+  .pname{font-size:15px}
+  .pcard-inner{padding:10px 12px;grid-template-columns:1fr}
+  .lane-item{padding:8px 10px;gap:8px;flex-wrap:wrap}
+  .lane-name{font-size:13px}
+  .lane-sbtn{font-size:11px;padding:3px 8px}
+  .file-item{padding:6px 8px}
+  .annual-section{padding:10px 12px}
+  .annual-sec-head{gap:8px}
+  .annual-item{padding:8px 10px;gap:8px}
+  .modal{max-width:calc(100vw - 24px)!important;margin:12px;max-height:90vh;overflow-y:auto}
+  .vcard-head{padding:8px 10px;gap:6px}
+  .vname{font-size:14px}
+  .vmeta{font-size:10px;gap:5px}
+  .vinfo-compact{flex-direction:column;gap:3px}
+  .vi-item{border-right:none;padding:0}
+  .vprod-table{font-size:11px;display:block;overflow-x:auto}
+  .vprod-table th,.vprod-table td{padding:4px 5px}
+  .gantt-wrap{overflow-x:auto}
+  .week-grid{gap:2px}
+  .week-day{min-width:0;font-size:11px}
+  .week-day-name{font-size:10px}
+  .week-day-num{font-size:14px}
+  .backup-banner{flex-wrap:wrap;padding:8px 12px;font-size:12px}
+  .backup-banner-btns{width:100%;justify-content:flex-end}
+  .print-grid{grid-template-columns:1fr 1fr}
+  .vendor-filters{gap:4px}
+  .vfilter-btn{font-size:11px;padding:3px 8px}
+}
+@media(max-width:420px){
+  .ntab{font-size:11px;padding:0 7px;height:36px}
+  .logo{font-size:13px}
+}
 </style>
 </head>
 <body>
@@ -367,6 +438,24 @@ nav::-webkit-scrollbar{display:none}
       <div class="hstat"><div class="hstat-n dim" id="sWait">0</div><div class="hstat-l">等待中</div></div>
       <div class="hstat"><div class="hstat-n warn" id="sUrgent">0</div><div class="hstat-l">快到期</div></div>
     </div>
+  </div>
+  <!-- BOSS TRACKER -->
+  <div class="boss-bar" id="bossBar">
+    <div class="boss-label">👔 老闆</div>
+    <div class="boss-status-btns">
+      <button class="boss-btn" id="bb-in"      onclick="setBoss('in')"      >✅ 在九如</button>
+      <button class="boss-btn" id="bb-out"     onclick="setBoss('out')"     >🚶 不在九如</button>
+      <button class="boss-btn" id="bb-meeting" onclick="setBoss('meeting')" >🗣 開會中</button>
+      <button class="boss-btn" id="bb-trip"    onclick="setBoss('trip')"    >✈ 出差中</button>
+      <button class="boss-btn" id="bb-remote"  onclick="setBoss('remote')"  >💻 遠端</button>
+      <button class="boss-btn" id="bb-unknown" onclick="setBoss('unknown')" >❓ 不確定</button>
+    </div>
+    <div class="boss-date-row" id="bossDateRow" style="display:none;flex-basis:100%;display:flex;align-items:center;gap:8px;margin-top:4px;flex-wrap:wrap">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted)">預計返回：</span>
+      <input type="date" id="bossReturnDate" class="fi" style="width:140px;padding:3px 8px;font-size:12px" onchange="saveBossReturn()"/>
+      <button onclick="clearBossReturn()" style="font-size:11px;color:var(--dim);background:none;border:none;cursor:pointer">✕ 清除</button>
+    </div>
+    <div class="boss-note" id="bossNote"></div>
   </div>
   <div id="alertList" class="alert-list"></div>
   <div class="sec-hd"><span class="sec-lbl go">▶ 可推進</span></div>
@@ -756,7 +845,7 @@ function renderToday(){
 }
 
 function delAlert(e,id,type){e.stopPropagation();if(type==='d')db.deadlines=db.deadlines.filter(x=>x.id!==id);else db.reminders=db.reminders.filter(x=>x.id!==id);renderAll();}
-function quickToggle(pid,lid){const p=db.projects.find(x=>x.id===pid);const l=p.lanes.find(x=>x.id===lid);l.status=l.status==='go'?'wait':'go';p.updatedAt=new Date().toISOString();renderAll();pushAll();toast(l.status==='go'?'▶ 可推進':'⏸ 等待中');}
+function quickToggle(pid,lid){const p=db.projects.find(x=>x.id===pid);const l=p.lanes.find(x=>x.id===lid);l.status=l.status==='go'?'wait':l.status==='wait'?'done':'go';p.updatedAt=new Date().toISOString();renderAll();pushAll();toast(l.status==='go'?'▶ 可推進':l.status==='wait'?'⏸ 等待中':'✅ 完成');}
 
 // PROJECTS
 function renderProjects(){
@@ -780,7 +869,7 @@ function renderProjects(){
           <button class="icon-btn del" style="width:18px;height:18px;font-size:10px" onclick="delFile('${p.id}',${fi},'${l.id}')">✕</button>
         </div>`).join(''):'';
       return `<div class="lane-item ${l.status}">
-        <button class="lane-sbtn" onclick="toggleLane('${p.id}','${l.id}')">${l.status==='go'?'▶ GO':'⏸'}</button>
+        <button class="lane-sbtn ${l.status}" onclick="toggleLane('${p.id}','${l.id}')">${l.status==='go'?'▶ GO':l.status==='wait'?'⏸':'✅'}</button>
         <div style="flex:1">
           <div class="lane-name">${esc(l.name)}</div>
           ${l.detail?`<div class="lane-detail">${esc(l.detail)}</div>`:''}
@@ -868,7 +957,7 @@ function renderProjects(){
 function toggleCard(pid){document.getElementById('pb-'+pid)?.classList.toggle('open')}
 let _pushTimer=null;
 function updP(pid,f,v){const p=db.projects.find(x=>x.id===pid);if(!p)return;p[f]=v;saveDB();clearTimeout(_pushTimer);_pushTimer=setTimeout(pushAll,2000);}
-function toggleLane(pid,lid){const p=db.projects.find(x=>x.id===pid);const l=p.lanes.find(x=>x.id===lid);l.status=l.status==='go'?'wait':'go';renderAll();pushAll();document.getElementById('pb-'+pid)?.classList.add('open');}
+function toggleLane(pid,lid){const p=db.projects.find(x=>x.id===pid);const l=p.lanes.find(x=>x.id===lid);l.status=l.status==='go'?'wait':l.status==='wait'?'done':'go';renderAll();pushAll();document.getElementById('pb-'+pid)?.classList.add('open');}
 function delLane(pid,lid){if(!confirm('刪除？'))return;const p=db.projects.find(x=>x.id===pid);p.lanes=p.lanes.filter(x=>x.id!==lid);renderAll();pushAll();document.getElementById('pb-'+pid)?.classList.add('open');toast('已刪除');}
 function delProj(e,pid){e.stopPropagation();if(!confirm('確定刪除？'))return;db.projects=db.projects.filter(x=>x.id!==pid);renderAll();pushAll();toast('已刪除');}
 
@@ -1705,6 +1794,66 @@ function delFile(pid,idx,lid){
   toast('已刪除');
 }
 
+// ── BOSS TRACKER ──
+const BOSS_KEY='ctrl_boss';
+const BOSS_LABELS={in:'✅ 在九如',out:'🚶 不在九如',meeting:'🗣 開會中',trip:'✈ 出差中',remote:'💻 遠端',unknown:'❓ 不確定'};
+
+function setBoss(status){
+  const existing=JSON.parse(localStorage.getItem(BOSS_KEY)||'{}');
+  const data={status,updatedAt:new Date().toISOString(),returnDate:existing.returnDate||''};
+  localStorage.setItem(BOSS_KEY,JSON.stringify(data));
+  renderBoss();
+  toast('老闆狀態：'+BOSS_LABELS[status]);
+}
+function saveBossReturn(){
+  const d=document.getElementById('bossReturnDate').value;
+  const data=JSON.parse(localStorage.getItem(BOSS_KEY)||'{}');
+  data.returnDate=d;
+  localStorage.setItem(BOSS_KEY,JSON.stringify(data));
+  renderBoss();
+}
+function clearBossReturn(){
+  document.getElementById('bossReturnDate').value='';
+  const data=JSON.parse(localStorage.getItem(BOSS_KEY)||'{}');
+  data.returnDate='';
+  localStorage.setItem(BOSS_KEY,JSON.stringify(data));
+  renderBoss();
+}
+
+function renderBoss(){
+  const raw=localStorage.getItem(BOSS_KEY);
+  const data=raw?JSON.parse(raw):null;
+  const status=data?.status||'unknown';
+  const classes={in:'in',out:'out',meeting:'meeting',trip:'trip',remote:'remote',unknown:'unknown'};
+  Object.keys(BOSS_LABELS).forEach(k=>{
+    const btn=document.getElementById('bb-'+k);
+    if(!btn)return;
+    btn.className='boss-btn'+(status===k?' active '+classes[k]:'');
+  });
+  // Show date row for away statuses
+  const awayStatuses=['out','trip','remote','unknown'];
+  const dateRow=document.getElementById('bossDateRow');
+  if(dateRow)dateRow.style.display=awayStatuses.includes(status)?'flex':'none';
+  const retInput=document.getElementById('bossReturnDate');
+  if(retInput&&data?.returnDate)retInput.value=data.returnDate;
+
+  const note=document.getElementById('bossNote');
+  if(note){
+    let noteText='';
+    if(data?.updatedAt){
+      const mins=Math.round((Date.now()-new Date(data.updatedAt))/60000);
+      const timeStr=mins<1?'剛剛':mins<60?mins+'分鐘前':Math.floor(mins/60)+'小時前';
+      noteText='最後更新：'+timeStr;
+    }
+    if(data?.returnDate){
+      const daysUntilReturn=Math.round((new Date(data.returnDate)-new Date(new Date().setHours(0,0,0,0)))/86400000);
+      const returnStr=daysUntilReturn<0?'已過預計返回日':daysUntilReturn===0?'今天返回':daysUntilReturn===1?'明天返回':'還有'+daysUntilReturn+'天返回';
+      noteText+=(noteText?' · ':'')+returnStr;
+    }
+    note.textContent=noteText;
+  }
+}
+
 // ── BACKUP ──
 const BACKUP_KEY='ctrl_last_backup';
 
@@ -1838,6 +1987,8 @@ function saveAndPush(){saveDB();pushAll();}
 renderAll();
 pullAll();
 checkBackupReminder();
+renderBoss();
+setInterval(renderBoss,60000);
 // Auto-sync every 90 seconds
 setInterval(pullAll,90000);
 </script>
