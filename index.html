@@ -441,21 +441,12 @@ nav::-webkit-scrollbar{display:none}
   </div>
   <!-- BOSS TRACKER -->
   <div class="boss-bar" id="bossBar">
-    <div class="boss-label">👔 老闆</div>
-    <div class="boss-status-btns">
-      <button class="boss-btn" id="bb-in"      onclick="setBoss('in')"      >✅ 在九如</button>
-      <button class="boss-btn" id="bb-out"     onclick="setBoss('out')"     >🚶 不在九如</button>
-      <button class="boss-btn" id="bb-meeting" onclick="setBoss('meeting')" >🗣 開會中</button>
-      <button class="boss-btn" id="bb-trip"    onclick="setBoss('trip')"    >✈ 出差中</button>
-      <button class="boss-btn" id="bb-remote"  onclick="setBoss('remote')"  >💻 遠端</button>
-      <button class="boss-btn" id="bb-unknown" onclick="setBoss('unknown')" >❓ 不確定</button>
+    <div style="display:flex;align-items:center;gap:10px;width:100%">
+      <div class="boss-label">👔 老闆</div>
+      <div id="bossTodayStatus" style="flex:1;font-size:13px;font-weight:600"></div>
+      <button class="btn btn-ghost" style="font-size:11px;padding:3px 10px" onclick="openBossModal()">設定行程</button>
     </div>
-    <div class="boss-date-row" id="bossDateRow" style="display:none;flex-basis:100%;display:flex;align-items:center;gap:8px;margin-top:4px;flex-wrap:wrap">
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted)">預計返回：</span>
-      <input type="date" id="bossReturnDate" class="fi" style="width:140px;padding:3px 8px;font-size:12px" onchange="saveBossReturn()"/>
-      <button onclick="clearBossReturn()" style="font-size:11px;color:var(--dim);background:none;border:none;cursor:pointer">✕ 清除</button>
-    </div>
-    <div class="boss-note" id="bossNote"></div>
+    <div id="bossUpcoming" style="flex-basis:100%;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin-top:3px"></div>
   </div>
   <div id="alertList" class="alert-list"></div>
   <div class="sec-hd"><span class="sec-lbl go">▶ 可推進</span></div>
@@ -703,6 +694,29 @@ nav::-webkit-scrollbar{display:none}
     <div class="modal-btns">
       <button class="btn btn-ghost" onclick="closeO('prodOverlay')">取消</button>
       <button class="btn btn-amber" onclick="saveProduct()">儲存</button>
+    </div>
+  </div>
+</div>
+
+<!-- BOSS MODAL -->
+<div class="overlay" id="bossOverlay">
+  <div class="modal" style="max-width:420px">
+    <div class="modal-title">老闆在九如的時間</div>
+    <div class="fg">
+      <label class="fl">開始日期</label>
+      <input type="date" class="fi" id="bossFrom"/>
+    </div>
+    <div class="fg">
+      <label class="fl">結束日期</label>
+      <input type="date" class="fi" id="bossTo"/>
+    </div>
+    <div class="modal-btns">
+      <button class="btn btn-ghost" onclick="closeO('bossOverlay')">取消</button>
+      <button class="btn btn-amber" onclick="addBossSchedule()">新增</button>
+    </div>
+    <div style="margin-top:16px">
+      <div class="flabel" style="margin-bottom:8px">近3個月行程</div>
+      <div id="bossScheduleList"></div>
     </div>
   </div>
 </div>
@@ -1286,7 +1300,7 @@ function renderMeetingContent(){
   });
 }
 
-['projOverlay','laneOverlay','deadlineOverlay','reminderOverlay','annualOverlay','fileOverlay','vendorOverlay','prodOverlay','printOverlay'].forEach(id=>{
+['projOverlay','laneOverlay','deadlineOverlay','reminderOverlay','annualOverlay','fileOverlay','vendorOverlay','prodOverlay','printOverlay','bossOverlay'].forEach(id=>{
   const el=document.getElementById(id);
   if(el)el.addEventListener('click',e=>{if(e.target.id===id)closeO(id)});
 });
@@ -1294,7 +1308,7 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){
     const mo=document.getElementById('mOverlay');
     if(mo&&mo.classList.contains('open')){closeMeeting();return;}
-    ['projOverlay','laneOverlay','deadlineOverlay','reminderOverlay','annualOverlay','fileOverlay','vendorOverlay','prodOverlay','printOverlay'].forEach(id=>{
+    ['projOverlay','laneOverlay','deadlineOverlay','reminderOverlay','annualOverlay','fileOverlay','vendorOverlay','prodOverlay','printOverlay','bossOverlay'].forEach(id=>{
       const el=document.getElementById(id);if(el)closeO(id);
     });
   }
@@ -1795,63 +1809,68 @@ function delFile(pid,idx,lid){
 }
 
 // ── BOSS TRACKER ──
-const BOSS_KEY='ctrl_boss';
-const BOSS_LABELS={in:'✅ 在九如',out:'🚶 不在九如',meeting:'🗣 開會中',trip:'✈ 出差中',remote:'💻 遠端',unknown:'❓ 不確定'};
+const BOSS_KEY='ctrl_boss_v2';
 
-function setBoss(status){
-  const existing=JSON.parse(localStorage.getItem(BOSS_KEY)||'{}');
-  const data={status,updatedAt:new Date().toISOString(),returnDate:existing.returnDate||''};
-  localStorage.setItem(BOSS_KEY,JSON.stringify(data));
-  renderBoss();
-  toast('老闆狀態：'+BOSS_LABELS[status]);
+function getBossSchedules(){
+  try{return JSON.parse(localStorage.getItem(BOSS_KEY)||'[]');}catch(e){return[];}
 }
-function saveBossReturn(){
-  const d=document.getElementById('bossReturnDate').value;
-  const data=JSON.parse(localStorage.getItem(BOSS_KEY)||'{}');
-  data.returnDate=d;
-  localStorage.setItem(BOSS_KEY,JSON.stringify(data));
-  renderBoss();
-}
-function clearBossReturn(){
-  document.getElementById('bossReturnDate').value='';
-  const data=JSON.parse(localStorage.getItem(BOSS_KEY)||'{}');
-  data.returnDate='';
-  localStorage.setItem(BOSS_KEY,JSON.stringify(data));
-  renderBoss();
-}
+function saveBossSchedules(arr){localStorage.setItem(BOSS_KEY,JSON.stringify(arr));}
 
+function openBossModal(){
+  const today=new Date().toISOString().split('T')[0];
+  document.getElementById('bossFrom').value=today;
+  document.getElementById('bossTo').value=today;
+  renderBossScheduleList();
+  document.getElementById('bossOverlay').classList.add('open');
+}
+function addBossSchedule(){
+  const from=document.getElementById('bossFrom').value;
+  const to=document.getElementById('bossTo').value;
+  if(!from||!to){alert('請選擇日期');return;}
+  if(to<from){alert('結束日期不能早於開始日期');return;}
+  const arr=getBossSchedules();
+  arr.push({id:uid(),from,to});
+  arr.sort((a,b)=>a.from.localeCompare(b.from));
+  saveBossSchedules(arr);
+  renderBoss();renderBossScheduleList();toast('已新增');
+}
+function delBossSchedule(id){
+  saveBossSchedules(getBossSchedules().filter(x=>x.id!==id));
+  renderBoss();renderBossScheduleList();
+}
+function renderBossScheduleList(){
+  const list=document.getElementById('bossScheduleList');if(!list)return;
+  const now=new Date();now.setHours(0,0,0,0);
+  const cutoff=new Date(now);cutoff.setMonth(cutoff.getMonth()+3);
+  const arr=getBossSchedules().filter(x=>new Date(x.to)>=now&&new Date(x.from)<=cutoff);
+  if(!arr.length){list.innerHTML='<div style="font-size:13px;color:var(--dim)">還沒有行程</div>';return;}
+  list.innerHTML=arr.map(x=>`
+    <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;flex:1">${x.from.slice(5).replace('-','/')} – ${x.to.slice(5).replace('-','/')}</span>
+      <button class="icon-btn del" onclick="delBossSchedule('${x.id}')">✕</button>
+    </div>`).join('');
+}
 function renderBoss(){
-  const raw=localStorage.getItem(BOSS_KEY);
-  const data=raw?JSON.parse(raw):null;
-  const status=data?.status||'unknown';
-  const classes={in:'in',out:'out',meeting:'meeting',trip:'trip',remote:'remote',unknown:'unknown'};
-  Object.keys(BOSS_LABELS).forEach(k=>{
-    const btn=document.getElementById('bb-'+k);
-    if(!btn)return;
-    btn.className='boss-btn'+(status===k?' active '+classes[k]:'');
-  });
-  // Show date row for away statuses
-  const awayStatuses=['out','trip','remote','unknown'];
-  const dateRow=document.getElementById('bossDateRow');
-  if(dateRow)dateRow.style.display=awayStatuses.includes(status)?'flex':'none';
-  const retInput=document.getElementById('bossReturnDate');
-  if(retInput&&data?.returnDate)retInput.value=data.returnDate;
+  const now=new Date();now.setHours(0,0,0,0);
+  const todayStr=now.toISOString().split('T')[0];
+  const arr=getBossSchedules();
 
-  const note=document.getElementById('bossNote');
-  if(note){
-    let noteText='';
-    if(data?.updatedAt){
-      const mins=Math.round((Date.now()-new Date(data.updatedAt))/60000);
-      const timeStr=mins<1?'剛剛':mins<60?mins+'分鐘前':Math.floor(mins/60)+'小時前';
-      noteText='最後更新：'+timeStr;
-    }
-    if(data?.returnDate){
-      const daysUntilReturn=Math.round((new Date(data.returnDate)-new Date(new Date().setHours(0,0,0,0)))/86400000);
-      const returnStr=daysUntilReturn<0?'已過預計返回日':daysUntilReturn===0?'今天返回':daysUntilReturn===1?'明天返回':'還有'+daysUntilReturn+'天返回';
-      noteText+=(noteText?' · ':'')+returnStr;
-    }
-    note.textContent=noteText;
+  // Today status
+  const todayIn=arr.find(x=>x.from<=todayStr&&x.to>=todayStr);
+  const statusEl=document.getElementById('bossTodayStatus');
+  if(statusEl){
+    statusEl.textContent=todayIn?'✅ 今天在九如':'🚶 今天不在九如';
+    statusEl.style.color=todayIn?'var(--green)':'var(--muted)';
   }
+
+  // Upcoming 3 months preview
+  const cutoff=new Date(now);cutoff.setMonth(cutoff.getMonth()+3);
+  const upcoming=arr.filter(x=>new Date(x.to)>=now&&new Date(x.from)<=cutoff)
+    .slice(0,4)
+    .map(x=>`${x.from.slice(5).replace('-','/')}–${x.to.slice(5).replace('-','/')} 在九如`)
+    .join('　');
+  const upEl=document.getElementById('bossUpcoming');
+  if(upEl)upEl.textContent=upcoming||'未來3個月無行程';
 }
 
 // ── BACKUP ──
