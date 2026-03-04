@@ -895,6 +895,7 @@ function renderToday(){
   let anyGo=false,anyWait=false;
   db.projects.forEach(p=>{
     p.lanes.forEach(l=>{
+      if(l.status==='done')return;
       const isGo=l.status==='go';
       if(isGo)anyGo=true;else anyWait=true;
       const el=document.createElement('div');el.className='todo-item'+(isGo?'':' wait');
