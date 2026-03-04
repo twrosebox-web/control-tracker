@@ -377,8 +377,11 @@ nav::-webkit-scrollbar{display:none}
       </div>
     </div>
     <div class="fg"><label class="fl">相關人物</label>
-      <input class="fi" id="pPeopleInput" placeholder="輸入姓名後按 Enter" onkeydown="addPersonFromInput(event)"/>
-      <div id="pPeopleTags" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px"></div>
+      <div style="display:flex;gap:6px">
+        <input class="fi" id="pPeopleInput" placeholder="輸入姓名後按 Enter 或 ＋" onkeydown="addPersonFromInput(event)" style="flex:1"/>
+        <button type="button" class="btn btn-ink" onclick="addPersonBtn()" style="padding:8px 12px;font-size:14px">＋</button>
+      </div>
+      <div id="pPeopleTags" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;min-height:20px"></div>
     </div>
     <div class="fg"><label class="fl">備注</label><textarea class="fta" id="pNote" placeholder="任何備注..."></textarea></div>
     <div class="modal-btns">
@@ -677,18 +680,24 @@ function openEditProj(e,pid){
 }
 function addPersonFromInput(e){
   if(e.key!=='Enter')return;e.preventDefault();
+  addPersonBtn();
+}
+function addPersonBtn(){
   const inp=document.getElementById('pPeopleInput');
   const val=inp.value.trim();if(!val)return;
   if(!tmpPeople.includes(val))tmpPeople.push(val);
   inp.value='';renderPeopleTags();
+  inp.focus();
 }
 function renderPeopleTags(){
   const wrap=document.getElementById('pPeopleTags');
-  wrap.innerHTML=tmpPeople.map((pe,i)=>`<span class="person-tag">${esc(pe)}<button onclick="tmpPeople.splice(${i},1);renderPeopleTags()">✕</button></span>`).join('');
+  if(!wrap)return;
+  if(!tmpPeople.length){wrap.innerHTML='<span style="font-size:12px;color:var(--dim)">還沒有加入人物</span>';return;}
+  wrap.innerHTML=tmpPeople.map((pe,i)=>`<span class="person-tag">${esc(pe)}<button type="button" onclick="tmpPeople.splice(${i},1);renderPeopleTags()">✕</button></span>`).join('');
 }
 function saveProject(){
   const name=document.getElementById('pName').value.trim();if(!name){alert('請輸入名稱');return;}
-  const data={name,startDate:document.getElementById('pStart').value,endDate:document.getElementById('pEnd').value,note:document.getElementById('pNote').value.trim(),people:[...tmpPeople]};
+  const data={name,startDate:document.getElementById('pStart').value,endDate:document.getElementById('pEnd').value,note:document.getElementById('pNote').value.trim(),people:[...tmpPeople]};console.log('[SAVE] people:',data.people);
   if(editingProjId){
     const p=db.projects.find(x=>x.id===editingProjId);
     Object.assign(p,data);
